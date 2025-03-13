@@ -44,7 +44,11 @@ local mini_modules = {
   { name = "ai", config = {} },
   { name = "clue", config = {} },
   { name = "diff", config = {} },
-  { name = "files", config = { mappings = { go_in_plus = '<CR>' } } },
+  {
+    name = "files", 
+    config = { mappings = { go_in_plus = '<CR>' } }, 
+    config_callback = function() vim.keymap.set('n', '<leader>F', MiniFiles.open) end 
+  },
   { name = "git", config = {} },
   { name = "icons", config = {} },
   { name = "statusline", config = {} },
@@ -55,6 +59,9 @@ for _, module in ipairs(mini_modules) do
   local ok, m = pcall(require, "mini." .. module.name)
   if ok then
     m.setup(module.config)
+    if module.config_callback then
+      module.config_callback(m)
+    end
   else
     print("Failed to load mini." .. module.name)
   end
