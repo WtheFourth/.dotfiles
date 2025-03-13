@@ -1,0 +1,112 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "palette": {
+    "blue": "#89B4FA",
+    "closer": "p:os",
+    "lavender": "#B4BEFE",
+    "os": "#ACB0BE",
+    "pink": "#F5C2E7",
+    "green": "#A6E3A1"
+  },
+  "upgrade": {
+    "source": "cdn",
+    "interval": "168h",
+    "auto": false,
+    "notice": false
+  },
+  "transient_prompt": {
+    "background": "transparent",
+    "foreground": "#ffffff",
+    "template": "\uf105 "
+  },
+  "blocks": [
+    {
+      "newline": true,
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "template": "{{.Icon}} ",
+          "foreground": "p:os",
+          "type": "os",
+          "style": "plain"
+        },
+        {
+          "properties": {
+            "home_icon": "~",
+            "style": "powerlevel",
+            "max_width": 4
+          },
+          "template": "{{ .Path }} ",
+          "foreground": "p:pink",
+          "type": "path",
+          "style": "plain"
+        },
+        {
+          "properties": {
+            "branch_icon": "\ue725 ",
+            "cherry_pick_icon": "\ue29b ",
+            "commit_icon": "\uf417 ",
+            "fetch_status": false,
+            "fetch_upstream_icon": false,
+            "merge_icon": "\ue727 ",
+            "no_commits_icon": "\uf0c3 ",
+            "rebase_icon": "\ue728 ",
+            "revert_icon": "\uf0e2 ",
+            "tag_icon": "\uf412 "
+          },
+          "template": "{{ .HEAD }} ",
+          "foreground": "p:lavender",
+          "type": "git",
+          "style": "plain"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "ruby",
+          "style": "plain",
+          "template": "\ue23e {{.Full}}",
+          "foreground": "p:pink"
+        },
+        {
+          "type": "dotnet",
+          "style": "plain",
+          "template": "\uf292 {{.Full}}",
+          "foreground": "p:green"
+        },
+        {
+          "type": "react",
+          "style": "plain",
+          "template": "\ue7ba {{.Full}}"
+        },
+        {
+          "type": "time",
+          "style": "plain",
+          "foreground": "p:closer",
+          "properties": {
+            "time_format": "3:04:05 pm"
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "template": "\uf105",
+          "foreground": "p:closer",
+          "type": "text",
+          "style": "plain"
+        }
+      ]
+    }
+  ],
+  "version": 3,
+  "final_space": true
+}
