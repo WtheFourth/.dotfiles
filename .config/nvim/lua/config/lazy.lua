@@ -1,4 +1,4 @@
--- Bootstrap lazy.nvim
+--Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -6,7 +6,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { out,                            "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -35,18 +35,18 @@ require("lazy").setup({
 
 -- setting up mini plugins
 local mini_modules = {
-  { name = "ai", config = {} },
+  { name = "ai",   config = {} },
   { name = "clue", config = {} },
   { name = "diff", config = {} },
   {
-    name = "files", 
-    config = { mappings = { go_in_plus = '<CR>' } }, 
-    config_callback = function() vim.keymap.set('n', '<leader>F', MiniFiles.open) end 
+    name = "files",
+    config = { mappings = { go_in_plus = '<CR>' } },
+    config_callback = function() vim.keymap.set('n', '<leader>F', MiniFiles.open) end
   },
-  { name = "git", config = {} },
-  { name = "icons", config = {} },
+  { name = "git",        config = {} },
+  { name = "icons",      config = {} },
   { name = "statusline", config = {} },
-  { name = "surround", config = {} },
+  { name = "surround",   config = {} },
 }
 
 for _, module in ipairs(mini_modules) do

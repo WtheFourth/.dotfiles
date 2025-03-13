@@ -22,7 +22,7 @@ install_stow() {
 
 if [[ -o interactive ]]; then
   if [[ -z "$__STOW_CHECK_DONE" ]]; then
-    __STOW_CHECK_DONE = 1
+    __STOW_CHECK_DONE=1
 
     if ! command -v stow &> /dev/null; then
       echo "Stow not found. Install? (y/n)"
