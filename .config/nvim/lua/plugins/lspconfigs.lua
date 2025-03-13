@@ -1,3 +1,28 @@
 return {
-  "williamboman/mason.nvim"
+  {
+    "williamboman/mason.nvim",
+    config = function() require("mason").setup() end
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      require("mason-lspconfig").setup()
+      require("mason-lspconfig").setup_handlers {
+        function(server_name)
+          require("lspconfig")[server_name].setup {}
+        end
+        -- server-specific handlers
+        -- ["server-name'] = function()
+        --   require("other-thing").setup {}
+        -- end
+      }
+    end
+  },
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      vim.keymap.set('n', '<leader>K', vim.lsp.buf.code_action)
+      vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format)
+    end
+  }
 }
