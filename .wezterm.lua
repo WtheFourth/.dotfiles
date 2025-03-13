@@ -11,6 +11,19 @@ config.font_size = 14.0
 
 config.use_fancy_tab_bar = false
 
+config.keys = {
+  {
+    key = '_',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action{SplitVertical={domain="CurrentPaneDomain"}}
+  },
+  {
+    key = '|',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action{SplitHorizontal={domain="CurrentPaneDomain"}}
+  }
+}
+
 config.colors = {
   tab_bar = {
     background = "#1e1e2e",
