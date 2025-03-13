@@ -70,6 +70,7 @@ zinit light Aloxaf/fzf-tab
 zinit light MichaelAquilina/zsh-you-should-use
 
 # snippets
+zinit snippet OMZL::async_prompt.zsh
 zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
 
