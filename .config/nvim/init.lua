@@ -4,7 +4,7 @@ local function is_wsl()
   return sys:lower():match('wsl') ~= nil
 end
 
-if is_wsl() then 
+if is_wsl() then
   vim.g.clipboard = {
     name = 'WslClipboard',
     copy = {
@@ -24,5 +24,8 @@ vim.o.relativenumber = true
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
 vim.o.clipboard = 'unnamedplus'
+vim.o.showmode = false
+vim.o.inccommand = 'split'
+vim.g.have_nerd_font = true
 
 require("config.lazy")
