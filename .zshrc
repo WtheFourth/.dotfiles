@@ -1,3 +1,7 @@
+if [ -n "${ZSH_DEBUGRC+1}" ]; then
+    zmodload zsh/zprof
+fi
+
 # zsh history
 HISTFILE=~/.histfile
 HISTSIZE=5000
@@ -62,6 +66,8 @@ elif [[ "$(uname)" == "Linux" ]] then
     fi
 fi
 
+zstyle ':omz:plugins:nvm' lazy yes
+
 # plugins
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-syntax-highlighting
@@ -73,6 +79,8 @@ zinit light MichaelAquilina/zsh-you-should-use
 zinit snippet OMZL::async_prompt.zsh
 zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
+zinit snippet OMZL::nvm.zsh
+zinit snippet OMZP::nvm
 
 # compinstall
 autoload -Uz compinit && compinit
@@ -103,9 +111,6 @@ export PATH=$PATH:$HOME/.local/bin
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 # End NVM
 
 # Setup dev environment
@@ -129,3 +134,7 @@ eval "$(oh-my-posh init zsh --config $DOTFILES_DIR/theme/.wk4.omp.json)"
 
 # fzf defaults
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+
+if [ -n "${ZSH_DEBUGRC+1}" ]; then
+    zprof
+fi
