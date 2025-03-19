@@ -1,3 +1,5 @@
+# this is entirely Claude-generated and I used it to move my config folder for 
+# nvim around for more precise stowing on my work computer
 #!/bin/bash
 
 set -e
