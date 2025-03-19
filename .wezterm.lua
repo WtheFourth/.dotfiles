@@ -14,13 +14,38 @@ config.use_fancy_tab_bar = false
 config.keys = {
   {
     key = '_',
-    mods = 'CTRL|SHIFT',
+    mods = 'CTRL|ALT|SHIFT|SUPER',
     action = wezterm.action{SplitVertical={domain="CurrentPaneDomain"}}
   },
   {
     key = '|',
-    mods = 'CTRL|SHIFT',
+    mods = 'CTRL|ALT|SHIFT|SUPER',
     action = wezterm.action{SplitHorizontal={domain="CurrentPaneDomain"}}
+  },
+  {
+    key = 'h',
+    mods = 'CTRL|ALT|SHIFT|SUPER',
+    action = wezterm.action{ActivatePaneDirection="Left"}
+  },
+  {
+    key = 'j',
+    mods = 'CTRL|ALT|SHIFT|SUPER',
+    action = wezterm.action{ActivatePaneDirection="Down"}
+  },
+  {
+    key = 'k',
+    mods = 'CTRL|ALT|SHIFT|SUPER',
+    action = wezterm.action{ActivatePaneDirection="Up"}
+  },
+  {
+    key = 'l',
+    mods = 'CTRL|ALT|SHIFT|SUPER',
+    action = wezterm.action{ActivatePaneDirection="Right"}
+  },
+  {
+    key = 'w',
+    mods = 'CTRL|ALT|SHIFT|SUPER',
+    action = wezterm.action.CloseCurrentPane {confirm = false}
   }
 }
 

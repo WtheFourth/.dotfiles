@@ -21,10 +21,6 @@ return {
     end
   },
   {
-    "neovim/nvim-lspconfig",
-    config = function()
-      vim.keymap.set('n', '<leader>K', vim.lsp.buf.code_action)
-      vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format)
-    end
+    "neovim/nvim-lspconfig"
   }
 }

@@ -27,5 +27,25 @@ vim.o.clipboard = 'unnamedplus'
 vim.o.showmode = false
 vim.o.inccommand = 'split'
 vim.g.have_nerd_font = true
+vim.o.cursorline = true
 
 require("config.lazy")
+
+--#region Keymaps
+
+--#region Telescope
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+--#endregion
+
+--#region LSPs
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
+vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format)
+--#endregion
+
+
+
+--#endregion
