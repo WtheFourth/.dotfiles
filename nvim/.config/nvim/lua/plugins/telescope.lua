@@ -30,11 +30,23 @@ return {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
         },
+        fzf = {
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = "ignore_case",
+        },
       },
       pickers = {
         find_files = {
           hidden = true
-        }
+        },
+        live_grep = {
+          file_ignore_patterns = { 'node_modules', '.git', '.venv' },
+          additional_args = function(_)
+            return { "--hidden" }
+          end
+        },
       }
     })
 

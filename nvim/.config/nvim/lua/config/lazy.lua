@@ -46,7 +46,6 @@ local mini_modules = {
   { name = "git",        config = {} },
   { name = "icons",      config = {} },
   { name = "statusline", config = {} },
-  { name = "surround",   config = {} },
 }
 
 for _, module in ipairs(mini_modules) do
