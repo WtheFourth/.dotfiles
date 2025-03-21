@@ -60,7 +60,7 @@
               "Untracked": "\uf128%d "
             }
           },
-          "template": "{{ .UpstreamIcon }}{{ if .HEAD }} {{ .HEAD }}{{ end }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Staging.Changed }}<p:green>{{ .Staging.String }}</> {{ end }}{{ if .Working.Changed }}<p:pink>{{ .Working.String }}</> {{ end }}",
+          "template": "{{ .UpstreamIcon }}{{ if .HEAD }} {{ .HEAD }}{{ end }}{{ if .BranchStatus }} <p:blue>{{ .BranchStatus }}</>{{ end }}{{ if .Staging.Changed }}<p:green>{{ .Staging.String }}</> {{ end }}{{ if .Working.Changed }}<p:pink>{{ .Working.String }}</> {{ end }}",
           "foreground": "p:lavender",
           "type": "git",
           "style": "plain"
