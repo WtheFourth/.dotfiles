@@ -138,3 +138,9 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 if [ -n "${ZSH_DEBUGRC+1}" ]; then
     zprof
 fi
+
+if [[ "$(uname)" == "Darwin" ]] then
+  ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+  export PATH="/Users/walter.kennedy/.rd/bin:$PATH"
+  ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+fi

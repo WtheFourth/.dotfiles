@@ -53,14 +53,14 @@
             "branch_gone_icon": "\udb80\udea0 ",
             "no_commits_icon": "\uf0c3 ",
             "status_formats": {
-              "Added": "\uf067%d",
-              "Deleted": "\uf068%d",
-              "Modified": "\udb81\ude4f%d",
-              "Unmerged": "\uf467%d",
-              "Untracked": "\uf128%d"
+              "Added": "\uf067%d ",
+              "Deleted": "\uf068%d ",
+              "Modified": "\udb81\ude4f%d ",
+              "Unmerged": "\uf467%d ",
+              "Untracked": "\uf128%d "
             }
           },
-          "template": "{{ .UpstreamIcon }}{{ if .HEAD }} {{ .HEAD }}{{ end }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}{{ .Working.String }} {{ end }}",
+          "template": "{{ .UpstreamIcon }}{{ if .HEAD }} {{ .HEAD }}{{ end }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Staging.Changed }}<p:green>{{ .Staging.String }}</> {{ end }}{{ if .Working.Changed }}<p:pink>{{ .Working.String }}</> {{ end }}",
           "foreground": "p:lavender",
           "type": "git",
           "style": "plain"
