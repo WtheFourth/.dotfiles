@@ -62,9 +62,12 @@ vim.keymap.set("n", "<leader>fl", builtin.lsp_references, { desc = "Telescope LS
 --#endregion
 
 --#region LSPs
-vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
-vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format)
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
+vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "LSP format" })
 --#endregion
+
+vim.keymap.set("n", "<c-j>", "<c-d>")
+vim.keymap.set("n", "<c-k>", "<c-u>")
 
 --#endregion
 
