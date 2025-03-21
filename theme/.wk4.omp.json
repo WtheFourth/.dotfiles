@@ -6,7 +6,9 @@
     "lavender": "#B4BEFE",
     "os": "#ACB0BE",
     "pink": "#F5C2E7",
-    "green": "#A6E3A1"
+    "green": "#A6E3A1",
+    "deeppurple": "#CBA6F7",
+    "orange": "#FAB387"
   },
   "upgrade": {
     "source": "cdn",
@@ -60,7 +62,7 @@
               "Untracked": "\uf128%d "
             }
           },
-          "template": "{{ .UpstreamIcon }}{{ if .HEAD }} {{ .HEAD }}{{ end }}{{ if .BranchStatus }} <p:blue>{{ .BranchStatus }}</>{{ end }}{{ if .Staging.Changed }}<p:green>{{ .Staging.String }}</> {{ end }}{{ if .Working.Changed }}<p:pink>{{ .Working.String }}</> {{ end }}",
+          "template": "{{ .UpstreamIcon }}{{ if .HEAD }} <p:deeppurple>{{ .HEAD }}</>{{ end }}{{ if .BranchStatus }} <p:blue>{{ .BranchStatus }}</>{{ end }}{{ if .Staging.Changed }}<p:green>{{ .Staging.String }}</> {{ end }}{{ if .Working.Changed }}<p:pink>{{ .Working.String }}</> {{ end }}{{ if .StashCount }}<p:orange>\uf51e{{ .StashCount }}</> {{ end }}",
           "foreground": "p:lavender",
           "type": "git",
           "style": "plain"
