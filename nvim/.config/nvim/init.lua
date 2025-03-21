@@ -19,6 +19,20 @@ if is_wsl() then
 	}
 end
 
+local toggle_qf = function()
+	for _, info in ipairs(vim.fn.getwininfo()) do
+		if info.quickfix == 1 then
+			vim.cmd("cclose")
+			return
+		end
+	end
+	if next(vim.fn.getqflist()) == nil then
+		print("Quickfix list empty")
+		return
+	end
+	vim.cmd("copen")
+end
+
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.shiftwidth = 2
@@ -32,9 +46,9 @@ vim.o.cursorline = true
 require("config.lazy")
 
 --#region Keymaps
---#region Builtin
-vim.keymap.set("n", "<leader>cc", "<cmd>copen<CR>", { desc = "Open Quickfix window" })
-vim.keymap.set("n", "<leader>ce", "<cmd>cclose<CR>", { desc = "Close Quickfix window" })
+--#region Quickfix
+vim.keymap.set("n", "<leader>cc", toggle_qf, { desc = "Toggle Quickfix window" })
+--#endregion
 
 --#region Telescope
 local builtin = require("telescope.builtin")
