@@ -1,6 +1,9 @@
 return {
 	"nvim-telescope/telescope.nvim",
 	tag = "0.1.8",
+	cond = function()
+		return not vim.g.vscode
+	end,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		{ -- If encountering errors, see telescope-fzf-native README for installation instructions

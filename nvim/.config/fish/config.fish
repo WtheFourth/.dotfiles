@@ -4,3 +4,7 @@ if test (uname) = "Darwin"
     set --export --prepend PATH "/Users/walter.kennedy/.rd/bin"
     ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 end
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+set --export --prepend PATH "/Users/walter.kennedy/.rd/bin"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
