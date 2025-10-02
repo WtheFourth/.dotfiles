@@ -1,3 +1,13 @@
-**/AWSVPNClient/
-**/AWS VPN Client/
-**/configstore/
+# Ignore everything
+/*
+
+# Whitelist specific directories
+!nvim/
+!scripts/
+
+# Whitelist specific files
+!.zshrc
+!.wezterm.lua
+!.luarc.json
+!.stow-local-ignore
+!.gitignore
