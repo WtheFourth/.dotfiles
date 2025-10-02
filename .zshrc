@@ -68,12 +68,15 @@ fi
 
 zstyle ':omz:plugins:nvm' lazy yes
 
-# plugins
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab
-zinit light MichaelAquilina/zsh-you-should-use
+# plugins - using turbo mode for faster startup
+zinit wait lucid light-mode for \
+  atinit"zicompinit; zicdreplay" \
+    zsh-users/zsh-completions \
+  atload"_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions \
+    zsh-users/zsh-syntax-highlighting \
+    Aloxaf/fzf-tab \
+    MichaelAquilina/zsh-you-should-use
 
 # snippets
 zinit snippet OMZL::async_prompt.zsh
@@ -82,8 +85,13 @@ zinit snippet OMZP::git
 zinit snippet OMZL::nvm.zsh
 zinit snippet OMZP::nvm
 
-# compinstall
-autoload -Uz compinit && compinit
+# compinstall - cache for 24 hours
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
 zinit cdreplay -q
 # End compinstall
 
@@ -107,11 +115,9 @@ alias vim='nvim'
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH=$PATH:$HOME/.local/bin
 
-# NVM
+# NVM - lazy loaded via zinit OMZP::nvm (see line 69 and line 83)
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-# End NVM
+# Manual loading removed to enable lazy loading
 
 # Setup dev environment
 # Define dotfiles directory
@@ -128,9 +134,34 @@ fi
 
 # Integrations
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval "$(zoxide init zsh --cmd cd)"
-eval "$(rbenv init - zsh)"
-eval "$(oh-my-posh init zsh --config $DOTFILES_DIR/theme/.wk4.omp.json)"
+
+# Pure zsh prompt (fast, no external dependencies)
+autoload -U colors && colors
+setopt PROMPT_SUBST
+
+# Git info
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git:*' formats ' %F{141}%b%f%c%u'
+zstyle ':vcs_info:git:*' actionformats ' %F{141}%b|%a%f%c%u'
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr ' %F{166}●%f'
+zstyle ':vcs_info:git:*' unstagedstr ' %F{203}●%f'
+
+precmd() { vcs_info }
+
+# Two-line prompt: Line 1 = path + git, Line 2 = arrow
+PROMPT='%F{219}%4~%f${vcs_info_msg_0_}
+%F{247}❯%f '
+
+RPROMPT=''
+
+# Defer slow eval commands using zinit turbo mode (after prompt is set up)
+zinit ice wait'0a' lucid atload'eval "$(zoxide init zsh --cmd cd)"'
+zinit light zdharma-continuum/null
+
+zinit ice wait'0b' lucid atload'eval "$(rbenv init - zsh)"'
+zinit light zdharma-continuum/null
 
 # fzf defaults
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
@@ -145,6 +176,5 @@ if [[ "$(uname)" == "Darwin" ]] then
   ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 fi
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/walter.kennedy/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+source ~/code/.ai-commit-config
