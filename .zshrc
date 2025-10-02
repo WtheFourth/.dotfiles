@@ -142,8 +142,8 @@ setopt PROMPT_SUBST
 # Git info
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats ' %F{141}%b%f%c%u'
-zstyle ':vcs_info:git:*' actionformats ' %F{141}%b|%a%f%c%u'
+zstyle ':vcs_info:git:*' formats ' %F{141} %b%f%c%u'
+zstyle ':vcs_info:git:*' actionformats ' %F{141} %b|%a%f%c%u'
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr ' %F{166}●%f'
 zstyle ':vcs_info:git:*' unstagedstr ' %F{203}●%f'
