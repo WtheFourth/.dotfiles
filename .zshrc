@@ -148,21 +148,6 @@ zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr ' %F{166}●%f'
 zstyle ':vcs_info:git:*' unstagedstr ' %F{203}●%f'
 
-# Show ahead/behind status
-zstyle ':vcs_info:git*+set-message:*' hooks git-st
-+vi-git-st() {
-    local ahead behind
-    local -a gitstatus
-    
-    ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
-    behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
-    
-    (( $ahead )) && gitstatus+=( "%F{green}↑${ahead}%f" )
-    (( $behind )) && gitstatus+=( "%F{red}↓${behind}%f" )
-    
-    hook_com[misc]+=${(j::)gitstatus}
-}
-
 precmd() { vcs_info }
 
 # Two-line prompt: Line 1 = path + git, Line 2 = arrow
