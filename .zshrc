@@ -142,8 +142,8 @@ setopt PROMPT_SUBST
 # Git info
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats ' %F{141} %b%f%c%u'
-zstyle ':vcs_info:git:*' actionformats ' %F{141} %b|%a%f%c%u'
+zstyle ':vcs_info:git:*' formats ' %F{141}⎇  %b%f%c%u'
+zstyle ':vcs_info:git:*' actionformats ' %F{141}⎇  %b|%a%f%c%u'
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr ' %F{166}●%f'
 zstyle ':vcs_info:git:*' unstagedstr ' %F{203}●%f'
@@ -178,3 +178,7 @@ fi
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 source ~/code/.ai-commit-config
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/walter.kennedy/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
