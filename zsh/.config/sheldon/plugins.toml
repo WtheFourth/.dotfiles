@@ -13,3 +13,6 @@ github = "zsh-users/zsh-history-substring-search"
 github = "ohmyzsh/ohmyzsh"
 dir = "plugins/git"
 use = ["git.plugin.zsh"]
+
+[plugins.you-should-use]
+github = "MichaelAquilina/zsh-you-should-use"
