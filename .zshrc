@@ -135,7 +135,6 @@ fi
 # Integrations
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Pure zsh prompt (fast, no external dependencies)
 autoload -U colors && colors
 setopt PROMPT_SUBST
 
@@ -170,15 +169,20 @@ if [ -n "${ZSH_DEBUGRC+1}" ]; then
     zprof
 fi
 
-if [[ "$(uname)" == "Darwin" ]] then
-  ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-  export PATH="/Users/walter.kennedy/.rd/bin:$PATH"
-  ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-fi
-
-[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
-source ~/code/.ai-commit-config
-
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/walter.kennedy/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# START: RN_HUDL_SELECTED_PRODUCT_HOOK_V3
+# This hook sources the rn-hudl zsh script when in the rn-hudl repo.
+chpwd() {
+  if [[ -f "platform-tools/product-toolkit/selected-product.zsh" ]]; then
+    source "platform-tools/product-toolkit/selected-product.zsh"
+  fi
+}
+chpwd
+# END: RN_HUDL_SELECTED_PRODUCT_HOOK_V3
+alias cat="bat"
