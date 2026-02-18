@@ -1,13 +1,1 @@
-# Ignore everything
-/*
-
-# Whitelist specific directories
-!nvim/
-!scripts/
-
-# Whitelist specific files
-!.zshrc
-!.wezterm.lua
-!.luarc.json
-!.stow-local-ignore
-!.gitignore
+.DS_Store
