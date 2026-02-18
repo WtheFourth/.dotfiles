@@ -18,6 +18,8 @@ zstyle ':completion:*' menu select
 alias ls='ls -a --color'
 alias cat='bat'
 alias vim='nvim'
+alias gwtl='git worktree list'
+alias gwtr='git worktree remove'
 export PATH="$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh" --no-use
