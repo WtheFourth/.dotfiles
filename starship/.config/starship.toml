@@ -1,6 +1,6 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 format = """
-$directory$git_branch$git_status$cmd_duration
+$directory$git_branch$git_status
 $character"""
 [directory]
 style = "bold #7aa2f7"
