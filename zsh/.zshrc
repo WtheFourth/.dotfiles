@@ -33,3 +33,10 @@ chpwd
 export PATH="$HOME/.rd/bin:$PATH"
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+gfm() {
+  if git fetch origin main:main 2>/dev/null; then
+    git merge main
+  else
+    git fetch origin master:master && git merge master
+  fi
+}
