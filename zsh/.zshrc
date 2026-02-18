@@ -4,6 +4,7 @@ SAVEHIST=$HISTSIZE
 HISTDUP=erase
 setopt appendhistory sharehistory
 setopt hist_ignore_space hist_ignore_all_dups hist_save_no_dups
+autoload -Uz compinit && compinit
 eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(sheldon source)"
 eval "$(starship init zsh)"
@@ -12,7 +13,6 @@ eval "$(rbenv init - zsh)"
 source <(fzf --zsh)
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' menu select
 alias ls='ls -a --color'
