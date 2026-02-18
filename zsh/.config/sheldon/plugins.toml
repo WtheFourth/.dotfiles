@@ -8,3 +8,8 @@ github = "zsh-users/zsh-syntax-highlighting"
 
 [plugins.zsh-history-substring-search]
 github = "zsh-users/zsh-history-substring-search"
+
+[plugins.ohmyzsh-git]
+github = "ohmyzsh/ohmyzsh"
+dir = "plugins/git"
+use = ["git.plugin.zsh"]
