@@ -3,3 +3,4 @@ font-feature="+calt, +liga, +dlig"
 theme="tokyonight"
 maximize="true"
 title=" "
+keybind = shift+enter=text:\n
