@@ -6,6 +6,7 @@ return {
 		return not vim.g.vscode
 	end,
 	opts = {
+		copilot_model = "claude-sonnet-4-6",
 		suggestion = {
 			enabled = true,
 			auto_trigger = true,
