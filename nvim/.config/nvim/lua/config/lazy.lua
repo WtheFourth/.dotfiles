@@ -35,9 +35,49 @@ require("lazy").setup({
 
 -- setting up mini plugins
 if not vim.g.vscode then
+	local header = table.concat({
+		"███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
+		"████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
+		"██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║",
+		"██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║",
+		"██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║",
+		"╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
+		"                                    by WtheFourth",
+	}, "\n")
+
 	local mini_modules = {
+		{
+			name = "starter",
+			config = {
+				header = header,
+				items = {
+					{ name = "[f] Find file",    action = "Telescope git_files",  section = "Actions" },
+					{ name = "[r] Recent files",  action = "Telescope oldfiles",   section = "Actions" },
+					{ name = "[g] Live grep",     action = "Telescope live_grep",  section = "Actions" },
+					{ name = "[e] File browser",  action = "lua MiniFiles.open()", section = "Actions" },
+					{ name = "[l] Lazy",          action = "Lazy",                 section = "Actions" },
+					{ name = "[q] Quit",          action = "qa",                   section = "Actions" },
+				},
+				footer = "",
+			},
+			config_callback = function()
+				vim.api.nvim_create_autocmd("User", {
+					pattern = "MiniStarterOpened",
+					callback = function(ev)
+						local map = function(key, action)
+							vim.keymap.set("n", key, "<cmd>" .. action .. "<cr>", { buffer = ev.buf })
+						end
+						map("f", "Telescope git_files")
+						map("r", "Telescope oldfiles")
+						map("g", "Telescope live_grep")
+						map("e", "lua MiniFiles.open()")
+						map("l", "Lazy")
+						map("q", "qa")
+					end,
+				})
+			end,
+		},
 		{ name = "ai", config = {} },
-		{ name = "clue", config = {} },
 		{ name = "diff", config = {} },
 		{
 			name = "files",
