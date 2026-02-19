@@ -69,24 +69,25 @@ gwtrmf() {
 
 # Create a tmux dev session with a git worktree.
 # Layout: nvim top-left (70%w 70%h), claude right (30%w), terminal bottom-left (70%w 30%h).
-# Usage: dev <session-name> <branch-pattern>
+# Usage: dev <session-name> <branch-pattern> [repo-dir]
 dev() {
   local session="$1"
   local branch_pattern="$2"
+  local repo_dir="${3:-$PWD}"
 
   if [[ -z "$session" || -z "$branch_pattern" ]]; then
-    echo "Usage: dev <session-name> <branch-pattern>"
+    echo "Usage: dev <session-name> <branch-pattern> [repo-dir]"
     return 1
   fi
 
   local root
-  root="$(git rev-parse --show-toplevel 2>/dev/null)" || {
-    echo "Not a git repository"
+  root="$(git -C "$repo_dir" rev-parse --show-toplevel 2>/dev/null)" || {
+    echo "Not a git repository: $repo_dir"
     return 1
   }
 
   local matches
-  matches="$(git branch -a | grep -v HEAD | sed 's|remotes/origin/||' | sed 's/^[* ]*//' | sort -u | grep "$branch_pattern")"
+  matches="$(git -C "$root" branch -a | grep -v HEAD | sed 's|remotes/origin/||' | sed 's/^[* ]*//' | sort -u | grep "$branch_pattern")"
 
   local branch
   if [[ -z "$matches" ]]; then
@@ -108,17 +109,19 @@ dev() {
   worktree_path="$(dirname "$root")/$(basename "$root")-${safe_name}"
 
   if [[ -z "$matches" ]]; then
-    git worktree add -b "$branch" "$worktree_path" || return 1
+    git -C "$root" worktree add -b "$branch" "$worktree_path" || return 1
   else
-    git worktree add "$worktree_path" "$branch" || return 1
+    git -C "$root" worktree add "$worktree_path" "$branch" || return 1
   fi
 
   tmux new-session -d -s "$session" -c "$worktree_path"
-  tmux split-window -t "$session:1.1" -h -p 30 -c "$worktree_path"
+
+  local right_pane
+  right_pane=$(tmux split-window -t "$session:1.1" -h -p 30 -c "$worktree_path" -P -F "#{pane_id}")
   tmux split-window -t "$session:1.1" -v -p 30 -c "$worktree_path"
 
   tmux send-keys -t "$session:1.1" "nvim" Enter
-  tmux send-keys -t "$session:1.2" "claude" Enter
+  tmux send-keys -t "$right_pane" "claude" Enter
   tmux select-pane -t "$session:1.1"
 
   if [[ -n "$TMUX" ]]; then
