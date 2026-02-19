@@ -66,3 +66,64 @@ gwtrmf() {
 
   echo "$matches" | xargs -I{} git worktree remove {}
 }
+
+# Create a tmux dev session with a git worktree.
+# Layout: nvim top-left (70%w 70%h), claude right (30%w), terminal bottom-left (70%w 30%h).
+# Usage: dev <session-name> <branch-pattern>
+dev() {
+  local session="$1"
+  local branch_pattern="$2"
+
+  if [[ -z "$session" || -z "$branch_pattern" ]]; then
+    echo "Usage: dev <session-name> <branch-pattern>"
+    return 1
+  fi
+
+  local root
+  root="$(git rev-parse --show-toplevel 2>/dev/null)" || {
+    echo "Not a git repository"
+    return 1
+  }
+
+  local matches
+  matches="$(git branch -a | grep -v HEAD | sed 's|remotes/origin/||' | sed 's/^[* ]*//' | sort -u | grep "$branch_pattern")"
+
+  local branch
+  if [[ -z "$matches" ]]; then
+    echo "No existing branch matched '$branch_pattern', creating new branch."
+    branch="$branch_pattern"
+  else
+    local count
+    count=$(echo "$matches" | grep -c .)
+    if [[ "$count" -gt 1 ]]; then
+      echo "Multiple branches matched, be more specific:"
+      echo "$matches"
+      return 1
+    fi
+    branch="$(echo "$matches" | tr -d ' ')"
+  fi
+
+  local safe_name="${branch//\//-}"
+  local worktree_path
+  worktree_path="$(dirname "$root")/$(basename "$root")-${safe_name}"
+
+  if [[ -z "$matches" ]]; then
+    git worktree add -b "$branch" "$worktree_path" || return 1
+  else
+    git worktree add "$worktree_path" "$branch" || return 1
+  fi
+
+  tmux new-session -d -s "$session" -c "$worktree_path"
+  tmux split-window -t "$session:1.1" -h -p 30 -c "$worktree_path"
+  tmux split-window -t "$session:1.1" -v -p 30 -c "$worktree_path"
+
+  tmux send-keys -t "$session:1.1" "nvim" Enter
+  tmux send-keys -t "$session:1.2" "claude" Enter
+  tmux select-pane -t "$session:1.1"
+
+  if [[ -n "$TMUX" ]]; then
+    tmux switch-client -t "$session"
+  else
+    tmux attach-session -t "$session"
+  fi
+}
