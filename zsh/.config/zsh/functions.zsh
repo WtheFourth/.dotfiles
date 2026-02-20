@@ -26,7 +26,7 @@ gwtaf() {
   root="$(git rev-parse --show-toplevel)" || return 1
 
   local matches
-  matches="$(git branch -a | grep -v HEAD | sed 's|remotes/origin/||' | sed 's/^[+* ]*//' | sort -u | grep "$pattern")"
+  matches="$(git branch -a | rg -v HEAD | sed 's|remotes/origin/||' | sed 's/^[+* ]*//' | sort -u | rg "$pattern")"
 
   if [[ -z "$matches" ]]; then
     echo "No branch found matching: $pattern"
@@ -34,7 +34,7 @@ gwtaf() {
   fi
 
   local count
-  count=$(echo "$matches" | grep -c .)
+  count=$(echo "$matches" | rg -c .)
   if [[ "$count" -gt 1 ]]; then
     echo "Multiple branches matched, be more specific:"
     echo "$matches"
@@ -49,7 +49,7 @@ gwtaf() {
 
   # Reuse existing worktree if one exists for this branch
   local existing
-  existing="$(git worktree list | grep "\[$branch\]" | awk '{print $1}')"
+  existing="$(git worktree list | rg -F "[$branch]" | awk '{print $1}')"
   if [[ -n "$existing" ]]; then
     echo "Worktree already exists at: $existing"
     return 0
@@ -67,7 +67,7 @@ gwtrmf() {
   fi
 
   local matches
-  matches="$(git worktree list | grep "$pattern" | awk '{print $1}')"
+  matches="$(git worktree list | rg "$pattern" | awk '{print $1}')"
   if [[ -z "$matches" ]]; then
     echo "No worktrees found matching: $pattern"
     return 1
@@ -96,7 +96,7 @@ dev() {
   }
 
   local matches
-  matches="$(git -C "$root" branch -a | grep -v HEAD | sed 's|remotes/origin/||' | sed 's/^[+* ]*//' | sort -u | grep "$branch_pattern")"
+  matches="$(git -C "$root" branch -a | rg -v HEAD | sed 's|remotes/origin/||' | sed 's/^[+* ]*//' | sort -u | rg "$branch_pattern")"
 
   local branch
   if [[ -z "$matches" ]]; then
@@ -104,7 +104,7 @@ dev() {
     branch="$branch_pattern"
   else
     local count
-    count=$(echo "$matches" | grep -c .)
+    count=$(echo "$matches" | rg -c .)
     if [[ "$count" -gt 1 ]]; then
       echo "Multiple branches matched, be more specific:"
       echo "$matches"
@@ -118,7 +118,7 @@ dev() {
 
   # Reuse existing worktree if one exists for this branch
   local existing
-  existing="$(git -C "$root" worktree list | grep "\[$branch\]" | awk '{print $1}')"
+  existing="$(git -C "$root" worktree list | rg -F "[$branch]" | awk '{print $1}')"
   if [[ -n "$existing" ]]; then
     echo "Using existing worktree at: $existing"
     worktree_path="$existing"

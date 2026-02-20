@@ -1,3 +1,5 @@
 alias ls='ls -a --color'
 alias cat='bat'
 alias vim='nvim'
+alias grep='rg'
+alias find='fd'
