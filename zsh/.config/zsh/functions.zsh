@@ -141,10 +141,28 @@ dev() {
   tmux rename-window -t "$session:1" "claude"
   tmux send-keys -t "$session:1.1" "claude \"\$(cat $prompt_file && rm $prompt_file)\"" Enter
 
+  # Detect package manager by lockfile
+  local setup_cmd=""
+  if [[ -f "$worktree_path/.nvmrc" ]]; then
+    setup_cmd="nvm use && "
+  fi
+  if [[ -f "$worktree_path/pnpm-lock.yaml" ]]; then
+    setup_cmd="${setup_cmd}pnpm install"
+  elif [[ -f "$worktree_path/yarn.lock" ]]; then
+    setup_cmd="${setup_cmd}yarn install"
+  elif [[ -f "$worktree_path/bun.lockb" || -f "$worktree_path/bun.lock" ]]; then
+    setup_cmd="${setup_cmd}bun install"
+  elif [[ -f "$worktree_path/package-lock.json" || -f "$worktree_path/package.json" ]]; then
+    setup_cmd="${setup_cmd}npm install"
+  fi
+
   # Window 2: nvim (top 70%) + terminal (bottom 30%)
   tmux new-window -t "$session" -n "editor" -c "$worktree_path"
   tmux send-keys -t "$session:2.1" "nvim" Enter
   tmux split-window -t "$session:2.1" -v -p 30 -c "$worktree_path"
+  if [[ -n "$setup_cmd" ]]; then
+    tmux send-keys -t "$session:2.2" "$setup_cmd" Enter
+  fi
   tmux select-pane -t "$session:2.1"
 
   # Start on window 1 (claude)

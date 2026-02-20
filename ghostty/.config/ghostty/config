@@ -3,4 +3,6 @@ font-feature="+calt, +liga, +dlig"
 theme="tokyonight"
 maximize="true"
 title=" "
+window-padding-x = 8
+window-padding-y = 0,4
 keybind = shift+enter=text:\n
