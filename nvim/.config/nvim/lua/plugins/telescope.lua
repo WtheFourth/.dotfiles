@@ -43,7 +43,11 @@ return {
 			},
 			pickers = {
 				find_files = {
-					find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
+					find_command = vim.fn.executable("fd") == 1
+							and { "fd", "--type", "f", "--hidden", "--exclude", ".git" }
+						or vim.fn.executable("fdfind") == 1
+								and { "fdfind", "--type", "f", "--hidden", "--exclude", ".git" }
+						or nil,
 					hidden = true,
 				},
 				live_grep = {
