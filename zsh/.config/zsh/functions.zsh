@@ -26,7 +26,7 @@ gwtaf() {
   root="$(git rev-parse --show-toplevel)" || return 1
 
   local matches
-  matches="$(git branch -a | grep -v HEAD | sed 's|remotes/origin/||' | sed 's/^[* ]*//' | sort -u | grep "$pattern")"
+  matches="$(git branch -a | grep -v HEAD | sed 's|remotes/origin/||' | sed 's/^[+* ]*//' | sort -u | grep "$pattern")"
 
   if [[ -z "$matches" ]]; then
     echo "No branch found matching: $pattern"
@@ -46,6 +46,15 @@ gwtaf() {
   local safe_name="${branch//\//-}"
   local path
   path="$(dirname "$root")/$(basename "$root")-${safe_name}"
+
+  # Reuse existing worktree if one exists for this branch
+  local existing
+  existing="$(git worktree list | grep "\[$branch\]" | awk '{print $1}')"
+  if [[ -n "$existing" ]]; then
+    echo "Worktree already exists at: $existing"
+    return 0
+  fi
+
   git worktree add "$path" "$branch"
 }
 
@@ -68,7 +77,7 @@ gwtrmf() {
 }
 
 # Create a tmux dev session with a git worktree.
-# Layout: nvim top-left (70%w 70%h), claude right (30%w), terminal bottom-left (70%w 30%h).
+# Layout: claude top-left (60%w 70%h), nvim right (40%w), terminal bottom-left (60%w 30%h).
 # Usage: dev <session-name> <branch-pattern> [repo-dir]
 dev() {
   local session="$1"
@@ -87,7 +96,7 @@ dev() {
   }
 
   local matches
-  matches="$(git -C "$root" branch -a | grep -v HEAD | sed 's|remotes/origin/||' | sed 's/^[* ]*//' | sort -u | grep "$branch_pattern")"
+  matches="$(git -C "$root" branch -a | grep -v HEAD | sed 's|remotes/origin/||' | sed 's/^[+* ]*//' | sort -u | grep "$branch_pattern")"
 
   local branch
   if [[ -z "$matches" ]]; then
@@ -106,23 +115,40 @@ dev() {
 
   local safe_name="${branch//\//-}"
   local worktree_path
-  worktree_path="$(dirname "$root")/$(basename "$root")-${safe_name}"
 
-  if [[ -z "$matches" ]]; then
-    git -C "$root" worktree add -b "$branch" "$worktree_path" || return 1
+  # Reuse existing worktree if one exists for this branch
+  local existing
+  existing="$(git -C "$root" worktree list | grep "\[$branch\]" | awk '{print $1}')"
+  if [[ -n "$existing" ]]; then
+    echo "Using existing worktree at: $existing"
+    worktree_path="$existing"
   else
-    git -C "$root" worktree add "$worktree_path" "$branch" || return 1
+    worktree_path="$(dirname "$root")/$(basename "$root")-${safe_name}"
+    if [[ -z "$matches" ]]; then
+      git -C "$root" worktree add -b "$branch" "$worktree_path" || return 1
+    else
+      git -C "$root" worktree add "$worktree_path" "$branch" || return 1
+    fi
   fi
 
+  local prompt_file
+  prompt_file=$(mktemp)
+  sed -e "s/{{BRANCH}}/$safe_name/g" -e "s/{{SESSION}}/$session/g" \
+    ~/.config/zsh/dev-prompt.md > "$prompt_file"
+
+  # Window 1: claude with init prompt
   tmux new-session -d -s "$session" -c "$worktree_path"
+  tmux rename-window -t "$session:1" "claude"
+  tmux send-keys -t "$session:1.1" "claude \"\$(cat $prompt_file && rm $prompt_file)\"" Enter
 
-  local right_pane
-  right_pane=$(tmux split-window -t "$session:1.1" -h -p 30 -c "$worktree_path" -P -F "#{pane_id}")
-  tmux split-window -t "$session:1.1" -v -p 30 -c "$worktree_path"
+  # Window 2: nvim (top 70%) + terminal (bottom 30%)
+  tmux new-window -t "$session" -n "editor" -c "$worktree_path"
+  tmux send-keys -t "$session:2.1" "nvim" Enter
+  tmux split-window -t "$session:2.1" -v -p 30 -c "$worktree_path"
+  tmux select-pane -t "$session:2.1"
 
-  tmux send-keys -t "$session:1.1" "nvim" Enter
-  tmux send-keys -t "$right_pane" "claude" Enter
-  tmux select-pane -t "$session:1.1"
+  # Start on window 1 (claude)
+  tmux select-window -t "$session:1"
 
   if [[ -n "$TMUX" ]]; then
     tmux switch-client -t "$session"
