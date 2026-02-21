@@ -2,12 +2,14 @@ local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
 
+-- Font
 config.font = wezterm.font_with_fallback({ "JetBrainsMono Nerd Font Mono", "JetBrainsMono Nerd Font" })
 config.font_size = 14.0
 
-
+-- Color Scheme
 config.color_scheme = "Tokyo Night"
 
+-- Tab Bar
 config.use_fancy_tab_bar = false
 
 config.colors = {
@@ -28,6 +30,7 @@ config.colors = {
 	},
 }
 
+-- Key Bindings
 config.leader = { key = 'a', mods = 'CTRL' }
 config.keys = {
   {key="Enter", mods="SHIFT", action=wezterm.action{SendString="\x1b\r"}},
