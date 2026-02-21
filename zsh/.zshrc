@@ -17,6 +17,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview '(eza -1 --color=always $realpath 2>/dev/null || ls -1 --color=always $realpath)'
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+zstyle ':fzf-tab:*' popup-min-size 60 20
 
 # Plugins
 # Tmux
