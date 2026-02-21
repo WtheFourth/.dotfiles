@@ -33,6 +33,7 @@ brew "node"
 brew "rbenv"
 brew "python@3.12"
 brew "pyenv"
+brew "lua-language-server"
 
 # DevOps / cloud
 brew "awscli"
