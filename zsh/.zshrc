@@ -19,8 +19,6 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 # Plugins
-for f in ~/.config/zsh/*.zsh; do source "$f"; done
-
 # Tmux
 if command -v tmux &> /dev/null && [[ -z "$TMUX" ]]; then
   tmux attach-session -t main || tmux new-session -s main
