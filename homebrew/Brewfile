@@ -60,6 +60,7 @@ cask "font-jetbrains-mono-nerd-font"
 
 # Apps
 cask "ghostty"
-cask "firefox"
-cask "hiddenbar"
+cask "firefox@developer-edition"
+cask "microsoft-edge"
 cask "rancher"
+cask "spotify"
