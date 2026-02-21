@@ -1,8 +1,15 @@
+# Font
 font-family="JetBrainsMono Nerd Font Mono"
 font-feature="+calt, +liga, +dlig"
+
+# Theme
 theme="tokyonight"
+
+# Window
 maximize="true"
 title=" "
 window-padding-x = 8
 window-padding-y = 0,4
+
+# Keybindings
 keybind = shift+enter=text:\n
