@@ -16,3 +16,6 @@ use = ["git.plugin.zsh"]
 
 [plugins.you-should-use]
 github = "MichaelAquilina/zsh-you-should-use"
+
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
