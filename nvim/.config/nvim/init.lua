@@ -1,3 +1,4 @@
+--#region Clipboard
 -- checking if we're using WSL, setting up clipboard appropriately
 local function is_wsl()
 	local sys = vim.fn.system("uname -r")
@@ -18,7 +19,9 @@ if is_wsl() then
 		cache_enabled = 0,
 	}
 end
+--#endregion
 
+--#region Editor
 local toggle_qf = function()
 	for _, info in ipairs(vim.fn.getwininfo()) do
 		if info.quickfix == 1 then
@@ -42,8 +45,11 @@ vim.o.showmode = false
 vim.o.inccommand = "split"
 vim.g.have_nerd_font = true
 vim.o.cursorline = true
+--#endregion
 
+--#region Plugins
 require("config.lazy")
+--#endregion
 
 --#region LSP
 vim.lsp.enable({ "lua_ls", "ts_ls", "cssls", "eslint", "omnisharp" })
@@ -64,6 +70,12 @@ vim.diagnostic.config({
 	virtual_text = false,
 	virtual_lines = true,
 })
+
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+	callback = function()
+		vim.diagnostic.setqflist({ open = false })
+	end,
+})
 --#endregion
 
 --#region Keymaps
@@ -71,9 +83,3 @@ vim.keymap.set("n", "<leader>cc", toggle_qf, { desc = "Toggle Quickfix window" }
 vim.keymap.set("n", "<c-j>", "<c-d>")
 vim.keymap.set("n", "<c-k>", "<c-u>")
 --#endregion
-
-vim.api.nvim_create_autocmd("DiagnosticChanged", {
-	callback = function()
-		vim.diagnostic.setqflist({ open = false })
-	end,
-})
