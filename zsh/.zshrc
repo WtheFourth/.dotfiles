@@ -1,3 +1,4 @@
+# History
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=$HISTSIZE
@@ -5,17 +6,21 @@ HISTDUP=erase
 setopt appendhistory sharehistory
 setopt hist_ignore_space hist_ignore_all_dups hist_save_no_dups
 
+# Completion
 autoload -Uz compinit && compinit
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' menu select
 
+# Plugins
 for f in ~/.config/zsh/*.zsh; do source "$f"; done
 
+# Tmux
 if command -v tmux &> /dev/null && [[ -z "$TMUX" ]]; then
   tmux attach-session -t main || tmux new-session -s main
 fi
 
+# Aliases
 alias ls='ls -a --color'
 alias cat='bat'
 alias vim='nvim'
@@ -27,6 +32,7 @@ elif (( $+commands[fdfind] )); then
   alias find='fdfind'
 fi
 
+# Environment
 [[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 (( $+commands[sheldon] )) && eval "$(sheldon source)"
 (( $+commands[starship] )) && eval "$(starship init zsh)"
@@ -45,6 +51,7 @@ export PATH="$HOME/.rd/bin:$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh" --no-use
 
+# Hooks
 chpwd() {
   if [[ -f "platform-tools/product-toolkit/selected-product.zsh" ]]; then
     source "platform-tools/product-toolkit/selected-product.zsh"
@@ -52,6 +59,7 @@ chpwd() {
 }
 chpwd
 
+# Git
 gfm() {
   if git fetch origin main:main 2>/dev/null; then
     git merge main
@@ -123,6 +131,7 @@ gwtrmf() {
   echo "$matches" | xargs -I{} git worktree remove {}
 }
 
+# Dev
 # Create a tmux dev session with a git worktree.
 # Layout: claude top-left (60%w 70%h), nvim right (40%w), terminal bottom-left (60%w 30%h).
 # Usage: dev <session-name> <branch-pattern> [repo-dir]
@@ -222,5 +231,6 @@ dev() {
   fi
 }
 
+# Keybindings
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
