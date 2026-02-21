@@ -51,7 +51,7 @@ brew "xcodesorg/made/xcodes"
 brew "mongosh"
 
 # Other tools
-brew "neovim"
+brew "bob"
 brew "gnupg"
 brew "redis", restart_service: :changed
 

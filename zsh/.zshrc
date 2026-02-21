@@ -29,6 +29,7 @@ fi
 alias ls='ls -a --color'
 alias cat='bat'
 alias vim='nvim'
+alias nvim-stable='NVIM_APPNAME=nvim-stable bob run v0.11.6'
 (( $+commands[rg] )) && alias grep='rg'
 if (( $+commands[fd] )); then
   alias find='fd'
@@ -51,7 +52,7 @@ if [[ -n "$_fd_cmd" ]]; then
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
   export FZF_ALT_C_COMMAND="$_fd_cmd --type d --hidden --exclude .git"
 fi
-export PATH="$HOME/.rd/bin:$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.rd/bin:$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh" --no-use
