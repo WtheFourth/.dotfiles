@@ -1,5 +1,8 @@
 shell = "zsh"
 
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 
@@ -16,6 +19,3 @@ use = ["git.plugin.zsh"]
 
 [plugins.you-should-use]
 github = "MichaelAquilina/zsh-you-should-use"
-
-[plugins.fzf-tab]
-github = "Aloxaf/fzf-tab"

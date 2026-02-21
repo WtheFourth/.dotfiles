@@ -10,7 +10,13 @@ setopt hist_ignore_space hist_ignore_all_dups hist_save_no_dups
 autoload -Uz compinit && compinit
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu no
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':fzf-tab:complete:cd:*' fzf-preview '(eza -1 --color=always $realpath 2>/dev/null || ls -1 --color=always $realpath)'
+zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 # Plugins
 for f in ~/.config/zsh/*.zsh; do source "$f"; done
