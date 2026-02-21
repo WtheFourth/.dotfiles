@@ -8,6 +8,12 @@ return {
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-nvim-lsp-signature-help",
+		{
+			"zbirenbaum/copilot-cmp",
+			config = function()
+				require("copilot_cmp").setup()
+			end,
+		},
 	},
 	config = function()
 		local cmp = require("cmp")
@@ -23,24 +29,16 @@ return {
 				["<C-b>"] = cmp.mapping.scroll_docs(-4),
 				["<C-f>"] = cmp.mapping.scroll_docs(4),
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
-				["<Tab>"] = cmp.mapping(function(fallback)
-				local copilot = require("copilot.suggestion")
-				if cmp.visible() then
-					cmp.select_next_item()
-				elseif copilot.is_visible() then
-					copilot.accept()
-				else
-					fallback()
-				end
-			end, { "i", "s" }),
+				["<Tab>"] = cmp.mapping.select_next_item(),
 				["<S-Tab>"] = cmp.mapping.select_prev_item(),
 				["<C-Space>"] = cmp.mapping.complete({}),
 			}),
-			sources = {
+			sources = cmp.config.sources({
+				{ name = "copilot" },
 				{ name = "nvim_lsp" },
 				{ name = "path" },
 				{ name = "nvim_lsp_signature_help" },
-			},
+			}),
 		})
 	end,
 }

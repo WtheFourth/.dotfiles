@@ -51,7 +51,7 @@ if not vim.g.vscode then
 			config = {
 				header = header,
 				items = {
-					{ name = "[f] Find file",    action = "Telescope git_files",  section = "Actions" },
+					{ name = "[f] Find file",    action = "lua TelescopeSmartFindFiles()",  section = "Actions" },
 					{ name = "[r] Recent files",  action = "Telescope oldfiles",   section = "Actions" },
 					{ name = "[g] Live grep",     action = "Telescope live_grep",  section = "Actions" },
 					{ name = "[e] File browser",  action = "lua MiniFiles.open()", section = "Actions" },
@@ -67,7 +67,7 @@ if not vim.g.vscode then
 						local map = function(key, action)
 							vim.keymap.set("n", key, "<cmd>" .. action .. "<cr>", { buffer = ev.buf })
 						end
-						map("f", "Telescope git_files")
+						map("f", "lua TelescopeSmartFindFiles()")
 						map("r", "Telescope oldfiles")
 						map("g", "Telescope live_grep")
 						map("e", "lua MiniFiles.open()")

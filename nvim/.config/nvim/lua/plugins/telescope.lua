@@ -60,7 +60,16 @@ return {
 		})
 
 		local builtin = require("telescope.builtin")
-		vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Telescope find files" })
+
+		local function smart_find_files()
+			local ok = pcall(builtin.git_files)
+			if not ok then
+				builtin.find_files()
+			end
+		end
+		_G.TelescopeSmartFindFiles = smart_find_files
+
+		vim.keymap.set("n", "<C-p>", smart_find_files, { desc = "Telescope find files" })
 		vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
 		vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
 		vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
