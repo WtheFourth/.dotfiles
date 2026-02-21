@@ -15,3 +15,14 @@ for f in ~/.config/zsh/*.zsh; do source "$f"; done
 if command -v tmux &> /dev/null && [[ -z "$TMUX" ]]; then
   tmux attach-session -t main || tmux new-session -s main
 fi
+
+alias ls='ls -a --color'
+alias cat='bat'
+alias vim='nvim'
+(( $+commands[rg] )) && alias grep='rg'
+if (( $+commands[fd] )); then
+  alias find='fd'
+elif (( $+commands[fdfind] )); then
+  alias fd='fdfind'
+  alias find='fdfind'
+fi
