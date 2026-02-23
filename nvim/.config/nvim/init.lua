@@ -16,6 +16,8 @@ vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/nvim-mini/mini.icons" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
+	{ src = "https://github.com/williamboman/mason.nvim" },
+	{ src = "https://github.com/williamboman/mason-lspconfig.nvim" },
 })
 
 require "which-key".add({
@@ -23,16 +25,17 @@ require "which-key".add({
 	{ "<leader>cc", group = "Comment" },
 })
 
-local lsps_to_enable = { "lua_ls" }
-if vim.loop.os_uname().sysname == "Linux" then
-	table.insert(lsps_to_enable, "ruby_lsp")
-	vim.filetype.add({
-		filename = {
-			Brewfile = "ruby",
-			[".Brewfile"] = "ruby",
-		}
-	})
-end
+vim.filetype.add({
+	filename = {
+		Brewfile = "ruby",
+		[".Brewfile"] = "ruby",
+	}
+})
+
+local lsps_to_enable = { "lua_ls", "ts_ls", "eslint", "ruby_lsp" }
+
+require("mason").setup()
+require("mason-lspconfig").setup({ ensure_installed = lsps_to_enable })
 vim.lsp.enable(lsps_to_enable)
 require("conform").setup({
 	formatters_by_ft = {
@@ -52,3 +55,10 @@ require "tokyonight".setup(
 	}
 )
 vim.cmd.colorscheme("tokyonight")
+
+vim.api.nvim_create_user_command("PackClean", function()
+	vim.pack.del(vim.iter(vim.pack.get())
+		:filter(function(x) return not x.active end)
+		:map(function(x) return x.spec.name end)
+		:totable())
+end, {})
