@@ -29,6 +29,7 @@ fi
 alias ls='ls -a --color'
 alias cat='bat'
 alias vim='nvim'
+alias nvim-stable='NVIM_APPNAME=nvim-stable bob run v0.11.6'
 (( $+commands[rg] )) && alias grep='rg'
 if (( $+commands[fd] )); then
   alias find='fd'
@@ -38,7 +39,13 @@ elif (( $+commands[fdfind] )); then
 fi
 
 # Environment
-[[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+# Apple Silicon
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+# Linux / WSL
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 (( $+commands[sheldon] )) && eval "$(sheldon source)"
 (( $+commands[starship] )) && eval "$(starship init zsh)"
 (( $+commands[zoxide] )) && eval "$(zoxide init zsh --cmd cd)"
@@ -51,7 +58,7 @@ if [[ -n "$_fd_cmd" ]]; then
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
   export FZF_ALT_C_COMMAND="$_fd_cmd --type d --hidden --exclude .git"
 fi
-export PATH="$HOME/.rd/bin:$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.rd/bin:$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh" --no-use
