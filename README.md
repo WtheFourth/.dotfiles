@@ -36,13 +36,22 @@ Stow creates symlinks from each package directory into `$HOME`, mirroring the fo
 
 ## Shell utilities
 
-The zsh config includes a `dev` function for spinning up tmux workspaces with git worktrees:
+| Command  | Description                                           |
+| -------- | ----------------------------------------------------- |
+| `dev`    | Spin up a tmux dev session with a git worktree        |
+| `gfm`   | Fetch and merge main (or master) into the current branch |
+| `gwtaf` | Add a worktree by branch name pattern                 |
+| `gwtrmf`| Remove worktrees matching a pattern                   |
+
+### dev
 
 ```sh
 dev <session-name> <branch-pattern> [repo-dir]
 ```
 
-This creates a worktree, opens a tmux session with Claude Code in one window and neovim + a terminal in another.
+Creates a worktree, opens a tmux session with Claude Code in one window and neovim + a terminal in another. Automatically detects the package manager and runs install.
+
+Optionally, create `~/.config/zsh/dev-prompt.md` to provide an initial prompt to Claude Code when a dev session starts. You can use `{{BRANCH}}` and `{{SESSION}}` as placeholders and they'll be substituted automatically.
 
 ## Uninstall
 
