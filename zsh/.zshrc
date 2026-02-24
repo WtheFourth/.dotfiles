@@ -207,7 +207,7 @@ dev() {
   # Window 1: claude with init prompt
   tmux new-session -d -s "$session" -c "$worktree_path"
   tmux rename-window -t "$session:1" "claude"
-  tmux send-keys -t "$session:1.1" "claude \"\$(cat $prompt_file && rm $prompt_file)\"" Enter
+  tmux send-keys -t "$session:1.1" "claude --model opus \"\$(cat $prompt_file && rm $prompt_file)\"" Enter
 
   # Detect package manager by lockfile
   local setup_cmd=""
