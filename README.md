@@ -4,6 +4,8 @@ Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Install
 
+Install [Homebrew](https://brew.sh) if you don't have it, then:
+
 ```sh
 git clone <repo-url> ~/.dotfiles
 cd ~/.dotfiles
