@@ -21,6 +21,16 @@ stow zsh tmux nvim ghostty
 
 Stow creates symlinks from each package directory into `$HOME`, mirroring the folder structure. For example, `stow tmux` links `tmux/.config/tmux/tmux.conf` to `~/.config/tmux/tmux.conf`.
 
+### Neovim
+
+Neovim is managed via [bob](https://github.com/MordechaiHadad/bob). Install nightly (default) and v0.11.6 (for `nvim-stable`):
+
+```sh
+bob install nightly
+bob use nightly
+bob install v0.11.6
+```
+
 ## Packages
 
 | Package      | What it configures                          |
