@@ -2,28 +2,12 @@
 
 Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
-## Prerequisites
-
-Install Homebrew, then bootstrap dependencies:
-
-```sh
-brew bundle --file=homebrew/.Brewfile
-```
-
-This installs everything from the [Brewfile](homebrew/.Brewfile), including `stow` itself.
-
 ## Install
-
-Clone into your home directory:
 
 ```sh
 git clone <repo-url> ~/.dotfiles
 cd ~/.dotfiles
-```
-
-Stow all packages:
-
-```sh
+brew bundle --file=homebrew/.Brewfile
 stow */
 ```
 
@@ -39,7 +23,6 @@ Stow creates symlinks from each package directory into `$HOME`, mirroring the fo
 
 | Package      | What it configures                          |
 | ------------ | ------------------------------------------- |
-| `gh`         | GitHub CLI                                  |
 | `ghostty`    | Ghostty terminal                            |
 | `git`        | Global gitignore                            |
 | `homebrew`   | Global Brewfile (`~/.Brewfile`)             |
