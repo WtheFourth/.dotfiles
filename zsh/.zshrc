@@ -199,15 +199,19 @@ dev() {
     fi
   fi
 
-  local prompt_file
-  prompt_file=$(mktemp)
-  sed -e "s/{{BRANCH}}/$safe_name/g" -e "s/{{SESSION}}/$session/g" \
-    ~/.config/zsh/dev-prompt.md > "$prompt_file"
+  local claude_cmd="claude --model opus"
+  if [[ -f ~/.config/zsh/dev-prompt.md ]]; then
+    local prompt_file
+    prompt_file=$(mktemp)
+    sed -e "s/{{BRANCH}}/$safe_name/g" -e "s/{{SESSION}}/$session/g" \
+      ~/.config/zsh/dev-prompt.md > "$prompt_file"
+    claude_cmd="claude --model opus \"\$(cat $prompt_file && rm $prompt_file)\""
+  fi
 
   # Window 1: claude with init prompt
   tmux new-session -d -s "$session" -c "$worktree_path"
   tmux rename-window -t "$session:1" "claude"
-  tmux send-keys -t "$session:1.1" "claude --model opus \"\$(cat $prompt_file && rm $prompt_file)\"" Enter
+  tmux send-keys -t "$session:1.1" "$claude_cmd" Enter
 
   # Detect package manager by lockfile
   local setup_cmd=""
