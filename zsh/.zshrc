@@ -53,15 +53,9 @@ fi
 (( $+commands[rbenv] )) && eval "$(rbenv init - zsh)"
 (( $+commands[fzf] )) && source <(fzf --zsh)
 
-if git rev-parse --is-inside-work-tree &>/dev/null; then
-  export FZF_DEFAULT_COMMAND="git ls-files"
-  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-  export FZF_ALT_C_COMMAND="git ls-tree -d -r --name-only HEAD"
-else
-  export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git"
-  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-  export FZF_ALT_C_COMMAND="fd --type d --hidden --exclude .git"
-fi
+export FZF_DEFAULT_COMMAND='git ls-files 2>/dev/null || fd --type f --hidden --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='git ls-tree -d -r --name-only HEAD 2>/dev/null || fd --type d --hidden --exclude .git'
 export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.rd/bin:$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
