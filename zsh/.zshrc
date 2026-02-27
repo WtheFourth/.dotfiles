@@ -7,6 +7,7 @@ setopt appendhistory sharehistory
 setopt hist_ignore_space hist_ignore_all_dups hist_save_no_dups
 
 # Completion
+setopt globdots
 autoload -Uz compinit && compinit
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
