@@ -148,12 +148,24 @@ gwtrmf() {
 # Layout: claude top-left (60%w 70%h), nvim right (40%w), terminal bottom-left (60%w 30%h).
 # Usage: dev <session-name> <branch-pattern> [repo-dir]
 dev() {
-  local session="$1"
-  local branch_pattern="$2"
-  local repo_dir="${3:-$PWD}"
+  local no_prompt=false
+  local no_install=false
+  local positional=()
+
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --no-prompt) no_prompt=true; shift ;;
+      --no-install) no_install=true; shift ;;
+      *) positional+=("$1"); shift ;;
+    esac
+  done
+
+  local session="${positional[1]}"
+  local branch_pattern="${positional[2]}"
+  local repo_dir="${positional[3]:-$PWD}"
 
   if [[ -z "$session" || -z "$branch_pattern" ]]; then
-    echo "Usage: dev <session-name> <branch-pattern> [repo-dir]"
+    echo "Usage: dev [--no-prompt] [--no-install] <session-name> <branch-pattern> [repo-dir]"
     return 1
   fi
 
@@ -200,7 +212,7 @@ dev() {
   fi
 
   local claude_cmd="claude --model opus"
-  if [[ -f ~/.config/zsh/dev-prompt.md ]]; then
+  if [[ "$no_prompt" == false && -f ~/.config/zsh/dev-prompt.md ]]; then
     local prompt_file
     prompt_file=$(mktemp)
     sed -e "s/{{BRANCH}}/$safe_name/g" -e "s/{{SESSION}}/$session/g" \
@@ -215,17 +227,28 @@ dev() {
 
   # Detect package manager by lockfile
   local setup_cmd=""
-  if [[ -f "$worktree_path/.nvmrc" ]]; then
-    setup_cmd="nvm use && "
-  fi
-  if [[ -f "$worktree_path/pnpm-lock.yaml" ]]; then
-    setup_cmd="${setup_cmd}pnpm install"
-  elif [[ -f "$worktree_path/yarn.lock" ]]; then
-    setup_cmd="${setup_cmd}yarn install"
-  elif [[ -f "$worktree_path/bun.lockb" || -f "$worktree_path/bun.lock" ]]; then
-    setup_cmd="${setup_cmd}bun install"
-  elif [[ -f "$worktree_path/package-lock.json" || -f "$worktree_path/package.json" ]]; then
-    setup_cmd="${setup_cmd}npm install"
+  if [[ "$no_install" == false ]]; then
+    if [[ -f "$worktree_path/.nvmrc" ]]; then
+      setup_cmd="nvm use && "
+    fi
+    if [[ -f "$worktree_path/pnpm-lock.yaml" ]]; then
+      setup_cmd="${setup_cmd}pnpm install"
+    elif [[ -f "$worktree_path/yarn.lock" ]]; then
+      setup_cmd="${setup_cmd}yarn install"
+    elif [[ -f "$worktree_path/bun.lockb" || -f "$worktree_path/bun.lock" ]]; then
+      setup_cmd="${setup_cmd}bun install"
+    elif [[ -f "$worktree_path/package-lock.json" || -f "$worktree_path/package.json" ]]; then
+      setup_cmd="${setup_cmd}npm install"
+    fi
+    # C# / .NET projects
+    local sln_files=("$worktree_path"/*.sln(N))
+    if [[ ${#sln_files[@]} -gt 0 ]]; then
+      if [[ -n "$setup_cmd" ]]; then
+        setup_cmd="${setup_cmd} && dotnet restore"
+      else
+        setup_cmd="dotnet restore"
+      fi
+    fi
   fi
 
   # Window 2: nvim (top 70%) + terminal (bottom 30%)
