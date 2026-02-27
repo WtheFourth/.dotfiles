@@ -57,6 +57,10 @@ if [[ -n "$_fd_cmd" ]]; then
   export FZF_DEFAULT_COMMAND="$_fd_cmd --type f --hidden --exclude .git"
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
   export FZF_ALT_C_COMMAND="$_fd_cmd --type d --hidden --exclude .git"
+else
+  export FZF_DEFAULT_COMMAND="find . -type f -not -path '*/.git/*'"
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND="find . -type d -not -path '*/.git/*'"
 fi
 export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.rd/bin:$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
 
