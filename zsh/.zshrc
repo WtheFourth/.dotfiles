@@ -7,6 +7,7 @@ setopt appendhistory sharehistory
 setopt hist_ignore_space hist_ignore_all_dups hist_save_no_dups
 
 # Completion
+setopt globdots
 autoload -Uz compinit && compinit
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -52,12 +53,17 @@ fi
 (( $+commands[rbenv] )) && eval "$(rbenv init - zsh)"
 (( $+commands[fzf] )) && source <(fzf --zsh)
 
-local _fd_cmd=${commands[fd]:-${commands[fdfind]:-}}
-if [[ -n "$_fd_cmd" ]]; then
-  export FZF_DEFAULT_COMMAND="$_fd_cmd --type f --hidden --exclude .git"
-  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-  export FZF_ALT_C_COMMAND="$_fd_cmd --type d --hidden --exclude .git"
-fi
+export FZF_DEFAULT_COMMAND='git ls-files 2>/dev/null || fd --type f --hidden --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='git ls-tree -d -r --name-only HEAD 2>/dev/null || fd --type d --hidden --exclude .git'
+
+_fzf_compgen_path() {
+  git ls-files 2>/dev/null || fd --type f --hidden --exclude .git "$1"
+}
+
+_fzf_compgen_dir() {
+  git ls-tree -d -r --name-only HEAD 2>/dev/null || fd --type d --hidden --exclude .git "$1"
+}
 export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.rd/bin:$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
