@@ -16,6 +16,10 @@ vim.o.completeopt = "menuone,noselect,popup"
 vim.o.termguicolors = true
 vim.o.winborder = "single"
 
+if vim.g.vscode then
+	return
+end
+
 vim.filetype.add({
 	filename = {
 		Brewfile = "ruby",
@@ -112,14 +116,31 @@ vim.diagnostic.config({
 })
 
 -- LSP
-local lsps_to_enable = { "lua_ls", "ts_ls", "eslint", "ruby_lsp", "omnisharp", "cssls" }
+local lsps_to_enable = { "lua_ls", "ts_ls", "eslint", "ruby_lsp", "cssls" }
 
 require("mason").setup()
 require("mason-lspconfig").setup({ ensure_installed = lsps_to_enable })
 require("mason-tool-installer").setup({
-	ensure_installed = { "prettierd", "prettier", "rubocop", "stylua", "netcoredbg" },
+	ensure_installed = { "prettierd", "prettier", "rubocop", "stylua" },
 })
 vim.lsp.enable(lsps_to_enable)
+
+vim.api.nvim_create_autocmd("LspDetach", {
+	callback = function(ev)
+		local buf = ev.buf
+		vim.defer_fn(function()
+			if vim.api.nvim_buf_is_valid(buf) then
+				local ft = vim.bo[buf].filetype
+				for _, name in ipairs(lsps_to_enable) do
+					local config = vim.lsp.config[name]
+					if config and vim.tbl_contains(config.filetypes or {}, ft) then
+						vim.lsp.enable(name)
+					end
+				end
+			end
+		end, 1000)
+	end,
+})
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
@@ -178,35 +199,6 @@ require("conform").setup({
 local dap = require("dap")
 local dapui = require("dapui")
 dapui.setup()
-
-dap.adapters.coreclr = {
-	type = "executable",
-	command = vim.fn.stdpath("data") .. "/mason/bin/netcoredbg",
-	args = { "--interpreter=vscode" },
-}
-
-dap.configurations.cs = {
-	{
-		type = "coreclr",
-		name = "Launch (native)",
-		request = "launch",
-		program = function()
-			return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/", "file")
-		end,
-		cwd = function()
-			return vim.fn.input("Working directory: ", vim.fn.getcwd() .. "/", "dir")
-		end,
-		env = {
-			ASPNETCORE_ENVIRONMENT = "Development",
-		},
-	},
-	{
-		type = "coreclr",
-		name = "Attach",
-		request = "attach",
-		processId = require("dap.utils").pick_process,
-	},
-}
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()

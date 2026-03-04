@@ -148,13 +148,13 @@ gwtrmf() {
 # Layout: claude top-left (60%w 70%h), nvim right (40%w), terminal bottom-left (60%w 30%h).
 # Usage: dev <session-name> <branch-pattern> [repo-dir]
 dev() {
-  local no_prompt=false
+  local no_context=false
   local no_install=false
   local positional=()
 
   while [[ $# -gt 0 ]]; do
     case $1 in
-      --no-prompt) no_prompt=true; shift ;;
+      --no-context) no_context=true; shift ;;
       --no-install) no_install=true; shift ;;
       *) positional+=("$1"); shift ;;
     esac
@@ -165,7 +165,7 @@ dev() {
   local repo_dir="${positional[3]:-$PWD}"
 
   if [[ -z "$session" || -z "$branch_pattern" ]]; then
-    echo "Usage: dev [--no-prompt] [--no-install] <session-name> <branch-pattern> [repo-dir]"
+    echo "Usage: dev [--no-context] [--no-install] <session-name> <branch-pattern> [repo-dir]"
     return 1
   fi
 
@@ -212,12 +212,20 @@ dev() {
   fi
 
   local claude_cmd="claude --model opus"
-  if [[ "$no_prompt" == false && -f ~/.config/zsh/dev-prompt.md ]]; then
-    local prompt_file
-    prompt_file=$(mktemp)
-    sed -e "s/{{BRANCH}}/$safe_name/g" -e "s/{{SESSION}}/$session/g" \
-      ~/.config/zsh/dev-prompt.md > "$prompt_file"
-    claude_cmd="claude --model opus \"\$(cat $prompt_file && rm $prompt_file)\""
+  if [[ "$no_context" == false ]]; then
+    claude_cmd="claude --model opus \"/dev-session $session\""
+  fi
+
+  # Resolve session name collisions by appending the repo name
+  if tmux has-session -t "$session" 2>/dev/null; then
+    local repo_name
+    repo_name="$(basename "$root")"
+    session="${session}-${repo_name}"
+    if tmux has-session -t "$session" 2>/dev/null; then
+      echo "tmux session '$session' already exists."
+      return 1
+    fi
+    echo "Session name collision, using: $session"
   fi
 
   # Window 1: claude with init prompt
