@@ -32,6 +32,14 @@ alias vim='nvim'
 if (( $+commands[fdfind] )); then
   alias fd='fdfind'
 fi
+nvm() {
+  if [[ "$1" == "use" ]]; then
+    fnm use "${@:2}"
+  else
+    echo "nvm is not installed. Did you mean fnm $1?"
+    return 1
+  fi
+}
 
 # Environment
 # Apple Silicon
@@ -52,6 +60,8 @@ if [[ -n "$_fd_cmd" ]]; then
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
   export FZF_ALT_C_COMMAND="$_fd_cmd --type d --hidden --exclude .git"
 fi
+export EDITOR="nvim"
+export VISUAL="nvim"
 export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.rd/bin:$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
 
@@ -295,4 +305,6 @@ dev() {
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
+export _ZO_DOCTOR=0
 (( $+commands[zoxide] )) && eval "$(zoxide init zsh --cmd cd)"
+export PATH="$HOME/.hudl/claude-telemetry/bin:$PATH"

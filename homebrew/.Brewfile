@@ -62,7 +62,6 @@ cask 'font-jetbrains-mono-nerd-font'
 
 # Apps
 if OS.mac?
-  cask 'ghostty'
   cask 'kitty'
   cask 'firefox@developer-edition'
   cask 'microsoft-edge'
