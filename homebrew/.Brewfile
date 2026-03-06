@@ -2,7 +2,6 @@
 if OS.mac?
   tap 'auth0/auth0-cli'
   tap 'hashicorp/tap'
-  tap 'spacelift-io/spacelift'
   tap 'wix/brew'
   tap 'xcodesorg/made'
 end
@@ -28,7 +27,7 @@ brew 'lazygit'
 brew 'pre-commit' if OS.mac?
 
 # Languages & version managers
-brew 'node'
+brew 'fnm'
 brew 'rbenv'
 brew 'python@3.12'
 brew 'pyenv'
@@ -38,7 +37,6 @@ if OS.mac?
   brew 'awscli'
   brew 'tfenv'
   brew 'tflint'
-  brew 'spacelift-io/spacelift/spacectl'
   brew 'auth0/auth0-cli/auth0'
   brew 'act'
   brew 'mkcert'
@@ -65,6 +63,7 @@ cask 'font-jetbrains-mono-nerd-font'
 # Apps
 if OS.mac?
   cask 'ghostty'
+  cask 'kitty'
   cask 'firefox@developer-edition'
   cask 'microsoft-edge'
   cask 'rancher'

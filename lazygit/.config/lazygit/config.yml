@@ -1,0 +1,8 @@
+os:
+  editPreset: "nvim"
+customCommands:
+  - key: "V"
+    description: "Open Diffview in nvim"
+    command: "nvim -c DiffviewOpen"
+    context: "global"
+    output: terminal

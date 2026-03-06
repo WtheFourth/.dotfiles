@@ -29,13 +29,8 @@ fi
 alias ls='ls -a --color'
 alias cat='bat'
 alias vim='nvim'
-alias nvim-stable='NVIM_APPNAME=nvim-stable bob run v0.11.6'
-(( $+commands[rg] )) && alias grep='rg'
-if (( $+commands[fd] )); then
-  alias find='fd'
-elif (( $+commands[fdfind] )); then
+if (( $+commands[fdfind] )); then
   alias fd='fdfind'
-  alias find='fdfind'
 fi
 
 # Environment
@@ -48,7 +43,6 @@ elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
 fi
 (( $+commands[sheldon] )) && eval "$(sheldon source)"
 (( $+commands[starship] )) && eval "$(starship init zsh)"
-(( $+commands[zoxide] )) && eval "$(zoxide init zsh --cmd cd)"
 (( $+commands[rbenv] )) && eval "$(rbenv init - zsh)"
 (( $+commands[fzf] )) && source <(fzf --zsh)
 
@@ -58,10 +52,10 @@ if [[ -n "$_fd_cmd" ]]; then
   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
   export FZF_ALT_C_COMMAND="$_fd_cmd --type d --hidden --exclude .git"
 fi
+export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.rd/bin:$HOME/.rbenv/bin:$HOME/.local/bin:$PATH"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh" --no-use
+(( $+commands[fnm] )) && eval "$(fnm env --use-on-cd --shell zsh)"
 
 # Hooks
 chpwd() {
@@ -73,10 +67,10 @@ chpwd
 
 # Git
 gfm() {
-  if git fetch origin main:main 2>/dev/null; then
-    git merge main
+  if git fetch origin main 2>/dev/null; then
+    git merge origin/main
   else
-    git fetch origin master:master && git merge master
+    git fetch origin master && git merge origin/master
   fi
 }
 
@@ -150,12 +144,15 @@ gwtrmf() {
 dev() {
   local no_context=false
   local no_install=false
+  local base_branch=""
   local positional=()
 
   while [[ $# -gt 0 ]]; do
     case $1 in
       --no-context) no_context=true; shift ;;
       --no-install) no_install=true; shift ;;
+      --base=*) base_branch="${1#--base=}"; shift ;;
+      --base) base_branch="$2"; shift 2 ;;
       *) positional+=("$1"); shift ;;
     esac
   done
@@ -165,7 +162,7 @@ dev() {
   local repo_dir="${positional[3]:-$PWD}"
 
   if [[ -z "$session" || -z "$branch_pattern" ]]; then
-    echo "Usage: dev [--no-context] [--no-install] <session-name> <branch-pattern> [repo-dir]"
+    echo "Usage: dev [--no-context] [--no-install] [--base=<branch>] <session-name> <branch-pattern> [repo-dir]"
     return 1
   fi
 
@@ -174,6 +171,18 @@ dev() {
     echo "Not a git repository: $repo_dir"
     return 1
   }
+
+  # Fetch base branch from origin
+  local base_ref
+  if [[ -n "$base_branch" ]]; then
+    git -C "$root" fetch origin "$base_branch" 2>/dev/null
+    base_ref="origin/$base_branch"
+  elif git -C "$root" fetch origin main 2>/dev/null; then
+    base_ref="origin/main"
+  else
+    git -C "$root" fetch origin master 2>/dev/null
+    base_ref="origin/master"
+  fi
 
   local matches
   matches="$(git -C "$root" branch -a | rg -v HEAD | sed 's|remotes/origin/||' | sed 's/^[+* ]*//' | sort -u | rg "$branch_pattern")"
@@ -205,7 +214,7 @@ dev() {
   else
     worktree_path="$(dirname "$root")/$(basename "$root")-${safe_name}"
     if [[ -z "$matches" ]]; then
-      git -C "$root" worktree add -b "$branch" "$worktree_path" || return 1
+      git -C "$root" worktree add -b "$branch" "$worktree_path" "$base_ref" || return 1
     else
       git -C "$root" worktree add "$worktree_path" "$branch" || return 1
     fi
@@ -236,8 +245,8 @@ dev() {
   # Detect package manager by lockfile
   local setup_cmd=""
   if [[ "$no_install" == false ]]; then
-    if [[ -f "$worktree_path/.nvmrc" ]]; then
-      setup_cmd="nvm use && "
+    if [[ -f "$worktree_path/.nvmrc" || -f "$worktree_path/.node-version" ]]; then
+      setup_cmd="fnm use && "
     fi
     if [[ -f "$worktree_path/pnpm-lock.yaml" ]]; then
       setup_cmd="${setup_cmd}pnpm install"
@@ -268,6 +277,10 @@ dev() {
   fi
   tmux select-pane -t "$session:2.1"
 
+  # Window 3: lazygit
+  tmux new-window -t "$session" -n "git" -c "$worktree_path"
+  tmux send-keys -t "$session:3.1" "lazygit" Enter
+
   # Start on window 1 (claude)
   tmux select-window -t "$session:1"
 
@@ -281,3 +294,5 @@ dev() {
 # Keybindings
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh --cmd cd)"

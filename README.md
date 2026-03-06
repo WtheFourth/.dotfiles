@@ -16,19 +16,18 @@ stow */
 Or stow individual packages:
 
 ```sh
-stow zsh tmux nvim ghostty
+stow zsh tmux nvim kitty
 ```
 
 Stow creates symlinks from each package directory into `$HOME`, mirroring the folder structure. For example, `stow tmux` links `tmux/.config/tmux/tmux.conf` to `~/.config/tmux/tmux.conf`.
 
 ### Neovim
 
-Neovim is managed via [bob](https://github.com/MordechaiHadad/bob). Install nightly (default) and v0.11.6 (for `nvim-stable`):
+Neovim is managed via [bob](https://github.com/MordechaiHadad/bob):
 
 ```sh
 bob install nightly
 bob use nightly
-bob install v0.11.6
 ```
 
 ## Packages
@@ -36,12 +35,13 @@ bob install v0.11.6
 | Package      | What it configures                          |
 | ------------ | ------------------------------------------- |
 | `ghostty`    | Ghostty terminal                            |
+| `kitty`      | Kitty terminal (Tokyo Night, cursor trail)  |
 | `git`        | Global gitignore                            |
 | `homebrew`   | Global Brewfile (`~/.Brewfile`)             |
-| `nvim`       | Neovim (stable + nightly configs)           |
+| `nvim`       | Neovim config                               |
 | `starship`   | Starship prompt                             |
 | `tmux`       | tmux (Tokyo Night theme, vim-style bindings)|
-| `wezterm`    | WezTerm terminal                            |
+| `lazygit`    | Lazygit                                     |
 | `zsh`        | Zsh config, sheldon plugins, `dev` function |
 
 ## Shell utilities
@@ -56,12 +56,15 @@ bob install v0.11.6
 ### dev
 
 ```sh
-dev <session-name> <branch-pattern> [repo-dir]
+dev [--no-context] [--no-install] [--base=<branch>] <session-name> <branch-pattern> [repo-dir]
 ```
 
-Creates a worktree, opens a tmux session with Claude Code in one window and neovim + a terminal in another. Automatically detects the package manager and runs install.
+Creates a worktree, opens a tmux session with Claude Code, neovim + terminal, and lazygit. Automatically detects the package manager and runs install.
 
-Optionally, create `~/.config/zsh/dev-prompt.md` to provide an initial prompt to Claude Code when a dev session starts. You can use `{{BRANCH}}` and `{{SESSION}}` as placeholders and they'll be substituted automatically.
+Options:
+- `--base=<branch>` — base the worktree off a specific branch instead of main/master
+- `--no-context` — skip the initial `/dev-session` prompt to Claude Code
+- `--no-install` — skip automatic dependency installation
 
 ## Uninstall
 

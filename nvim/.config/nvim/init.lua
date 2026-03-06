@@ -44,6 +44,8 @@ vim.pack.add({
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/echasnovski/mini.starter" },
+	{ src = "https://github.com/echasnovski/mini.statusline" },
+	{ src = "https://github.com/seblyng/roslyn.nvim" },
 	{ src = "https://github.com/mfussenegger/nvim-dap" },
 	{ src = "https://github.com/rcarriga/nvim-dap-ui" },
 	{ src = "https://github.com/nvim-neotest/nvim-nio" },
@@ -56,6 +58,43 @@ require("tokyonight").setup({
 	end,
 })
 vim.cmd.colorscheme("tokyonight")
+
+-- Statusline
+local statusline = require("mini.statusline")
+statusline.setup({
+	content = {
+		active = function()
+			local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
+			mode = "\u{e7c5} " .. mode:upper()
+			local git = statusline.section_git({ trunc_width = 40, icon = "\u{e0a0}" })
+			local diff = statusline.section_diff({ trunc_width = 75, icon = "\u{f440}" })
+			local diagnostics = statusline.section_diagnostics({
+				trunc_width = 75,
+				signs = { ERROR = "\u{f659} ", WARN = "\u{f529} ", INFO = "\u{f7fc} ", HINT = "\u{f0335} " },
+			})
+			local filename = statusline.section_filename({ trunc_width = 140 })
+			local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
+			local location = statusline.section_location({ trunc_width = 75 })
+			local search = statusline.section_searchcount({ trunc_width = 75 })
+
+			local lsp_names = vim.iter(vim.lsp.get_clients({ bufnr = 0 }))
+				:map(function(c) return c.name end)
+				:totable()
+			local lsp = #lsp_names > 0 and "\u{f085} " .. table.concat(lsp_names, ", ") or ""
+
+			return statusline.combine_groups({
+				{ hl = mode_hl, strings = { mode } },
+				{ hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics } },
+				"%<",
+				{ hl = "MiniStatuslineFilename", strings = { filename } },
+				"%=",
+				{ hl = "MiniStatuslineDevinfo", strings = { lsp } },
+				{ hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+				{ hl = mode_hl, strings = { search, location } },
+			})
+		end,
+	},
+})
 
 -- Start screen
 local starter = require("mini.starter")
@@ -118,12 +157,19 @@ vim.diagnostic.config({
 -- LSP
 local lsps_to_enable = { "lua_ls", "ts_ls", "eslint", "ruby_lsp", "cssls" }
 
-require("mason").setup()
+require("mason").setup({
+	registries = {
+		"github:mason-org/mason-registry",
+		"github:Crashdummyy/mason-registry",
+	},
+})
 require("mason-lspconfig").setup({ ensure_installed = lsps_to_enable })
 require("mason-tool-installer").setup({
 	ensure_installed = { "prettierd", "prettier", "rubocop", "stylua" },
 })
 vim.lsp.enable(lsps_to_enable)
+
+require("roslyn").setup({})
 
 vim.api.nvim_create_autocmd("LspDetach", {
 	callback = function(ev)
@@ -190,7 +236,7 @@ require("conform").setup({
 		markdown = { "prettierd", "prettier", stop_after_first = true },
 	},
 	format_on_save = {
-		timeout_ms = 500,
+		timeout_ms = 2000,
 		lsp_format = "fallback",
 	},
 })

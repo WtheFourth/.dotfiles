@@ -11,5 +11,16 @@ title=" "
 window-padding-x = 8
 window-padding-y = 0,4
 
+# Shaders
+# custom-shader = shaders/cursor_warp.glsl
+custom-shader = shaders/cursor_sweep.glsl
+# custom-shader = shaders/cursor_tail.glsl
+custom-shader = shaders/sonic_boom_cursor.glsl
+# custom-shader = shaders/ripple_cursor.glsl
+custom-shader-animation = always
+
 # Keybindings
 keybind = shift+enter=text:\n
+
+# Cursor
+cursor-style = bar

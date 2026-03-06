@@ -41,6 +41,10 @@
       "rev": "cdf909e5bda577e09c61fa6d9a36bb2a88dbc636",
       "src": "https://github.com/echasnovski/mini.starter"
     },
+    "mini.statusline": {
+      "rev": "8c3829d4ef02b693f68e43fc131b433f11049b2b",
+      "src": "https://github.com/echasnovski/mini.statusline"
+    },
     "nvim-dap": {
       "rev": "b516f20b487b0ac6a281e376dfac1d16b5040041",
       "src": "https://github.com/mfussenegger/nvim-dap"
@@ -64,6 +68,10 @@
     "oil.nvim": {
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "roslyn.nvim": {
+      "rev": "7deb9bb5b6afcb3c03c70741c6d364ffd8b59bda",
+      "src": "https://github.com/seblyng/roslyn.nvim"
     },
     "tokyonight.nvim": {
       "rev": "5da1b76e64daf4c5d410f06bcb6b9cb640da7dfd",
