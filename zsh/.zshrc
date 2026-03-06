@@ -301,6 +301,8 @@ dev() {
   fi
 }
 
+[[ -f "$HOME/.config/zsh/pdev.zsh" ]] && source "$HOME/.config/zsh/pdev.zsh"
+
 # Keybindings
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down

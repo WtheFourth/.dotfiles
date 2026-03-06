@@ -53,6 +53,8 @@ end
 # Other tools
 brew 'bob'
 brew 'tree-sitter-cli'
+brew 'yq'
+brew 'beads'
 brew 'gnupg'
 brew 'redis', restart_service: :changed
 brew 'openssl@3' if OS.linux?
