@@ -104,6 +104,9 @@ return {
 	{ "nvim-mini/mini.icons", opts = {} },
 	{
 		"folke/flash.nvim",
+		opts = {
+			modes = { search = { enabled = true } },
+		},
 		keys = {
 			{ "s", function() require("flash").jump() end, mode = { "n", "x", "o" }, desc = "Flash jump" },
 			{ "S", function() require("flash").treesitter() end, mode = { "n", "x", "o" }, desc = "Flash treesitter" },
