@@ -61,8 +61,13 @@ return {
 			})
 		end,
 	},
-	{ "nvim-mini/mini.icons", opts = {} },
-	{ "nvim-tree/nvim-web-devicons", opts = {} },
+	{
+		"nvim-mini/mini.icons",
+		config = function()
+			require("mini.icons").setup()
+			require("mini.icons").mock_nvim_web_devicons()
+		end,
+	},
 	{
 		"folke/flash.nvim",
 		opts = {
