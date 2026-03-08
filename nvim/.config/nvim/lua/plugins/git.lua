@@ -9,8 +9,4 @@ return {
 			{ "<leader>gq", "<cmd>DiffviewClose<cr>", desc = "Diffview close" },
 		},
 	},
-	{
-		"github/copilot.vim",
-		event = "InsertEnter",
-	},
 }
