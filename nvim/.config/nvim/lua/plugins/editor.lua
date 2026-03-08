@@ -62,6 +62,7 @@ return {
 		end,
 	},
 	{ "nvim-mini/mini.icons", opts = {} },
+	{ "nvim-tree/nvim-web-devicons", opts = {} },
 	{
 		"folke/flash.nvim",
 		opts = {
