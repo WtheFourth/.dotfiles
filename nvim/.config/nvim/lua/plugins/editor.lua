@@ -9,21 +9,6 @@ return {
 		end,
 	},
 	{
-		"ibhagwan/fzf-lua",
-		keys = {
-			{ "<C-p>", "<cmd>FzfLua files<cr>", desc = "Find files" },
-			{ "<leader>ff", "<cmd>FzfLua git_files<cr>", desc = "Find git files" },
-			{ "<leader>fg", "<cmd>FzfLua live_grep<cr>", desc = "Live grep" },
-			{ "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
-			{ "<leader>fh", "<cmd>FzfLua helptags<cr>", desc = "Help tags" },
-			{ "<leader>fk", "<cmd>FzfLua keymaps<cr>", desc = "Keymaps" },
-			{ "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Recent files" },
-		},
-		config = function()
-			require("fzf-lua").setup({})
-		end,
-	},
-	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		config = function()
@@ -33,31 +18,6 @@ return {
 				{ "<leader>f", group = "Find" },
 				{ "<leader>d", group = "Debug" },
 				{ "<leader>g", group = "Git" },
-			})
-		end,
-	},
-	{
-		"echasnovski/mini.starter",
-		config = function()
-			local starter = require("mini.starter")
-			starter.setup({
-				header = table.concat({
-					"███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
-					"████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
-					"██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║",
-					"██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║",
-					"██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║",
-					"╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
-					"                                           NIGHTLY",
-				}, "\n"),
-				items = {
-					{ name = "Find file", action = "FzfLua files", section = "Actions" },
-					{ name = "Recent files", action = "FzfLua oldfiles", section = "Actions" },
-					{ name = "Live grep", action = "FzfLua live_grep", section = "Actions" },
-					{ name = "File browser", action = "Oil", section = "Actions" },
-					{ name = "Quit", action = "qa", section = "Actions" },
-				},
-				footer = "",
 			})
 		end,
 	},
