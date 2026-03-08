@@ -26,7 +26,7 @@ return {
 		dependencies = { "williamboman/mason.nvim" },
 		config = function()
 			require("mason-tool-installer").setup({
-				ensure_installed = { "prettierd", "prettier", "rubocop", "stylua" },
+				ensure_installed = { "prettierd", "prettier", "rubocop", "stylua", "netcoredbg" },
 			})
 		end,
 	},
