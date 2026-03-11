@@ -82,6 +82,7 @@ return {
 				enabled = true,
 				sources = {
 					files = { hidden = true },
+					recent = { filter = { cwd = true } },
 				},
 			},
 			dashboard = {
