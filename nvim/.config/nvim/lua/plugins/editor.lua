@@ -42,7 +42,9 @@ return {
 						local search = statusline.section_searchcount({ trunc_width = 75 })
 
 						local lsp_names = vim.iter(vim.lsp.get_clients({ bufnr = 0 }))
-							:map(function(c) return c.name end)
+							:map(function(c)
+								return c.name
+							end)
 							:totable()
 						local lsp = #lsp_names > 0 and "\u{f085} " .. table.concat(lsp_names, ", ") or ""
 
@@ -70,15 +72,51 @@ return {
 	},
 	{
 		"folke/flash.nvim",
+		event = "VeryLazy",
 		opts = {
 			modes = { search = { enabled = true } },
 		},
 		keys = {
-			{ "s", function() require("flash").jump() end, mode = { "n", "x", "o" }, desc = "Flash jump" },
-			{ "S", function() require("flash").treesitter() end, mode = { "n", "x", "o" }, desc = "Flash treesitter" },
-			{ "r", function() require("flash").remote() end, mode = "o", desc = "Flash remote" },
-			{ "R", function() require("flash").treesitter_search() end, mode = { "o", "x" }, desc = "Flash treesitter search" },
-			{ "<C-s>", function() require("flash").toggle() end, mode = "c", desc = "Flash toggle search" },
+			{
+				"s",
+				function()
+					require("flash").jump()
+				end,
+				mode = { "n", "x", "o" },
+				desc = "Flash jump",
+			},
+			{
+				"S",
+				function()
+					require("flash").treesitter()
+				end,
+				mode = { "n", "x", "o" },
+				desc = "Flash treesitter",
+			},
+			{
+				"r",
+				function()
+					require("flash").remote()
+				end,
+				mode = "o",
+				desc = "Flash remote",
+			},
+			{
+				"R",
+				function()
+					require("flash").treesitter_search()
+				end,
+				mode = { "o", "x" },
+				desc = "Flash treesitter search",
+			},
+			{
+				"<C-s>",
+				function()
+					require("flash").toggle()
+				end,
+				mode = "c",
+				desc = "Flash toggle search",
+			},
 		},
 	},
 }
