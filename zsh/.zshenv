@@ -1,7 +1,2 @@
-# Homebrew — set up for ALL shell contexts (interactive, scripts, IDE terminals)
-# This ensures /opt/homebrew/bin is always before /usr/bin.
-if [[ -x /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
+# Moved to .zprofile — .zshenv runs before /etc/zprofile's path_helper,
+# which reorders PATH and puts /usr/bin before /opt/homebrew/bin.
