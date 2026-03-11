@@ -1,0 +1,16 @@
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.signcolumn = "yes"
+vim.o.tabstop = 4
+vim.o.cursorline = true
+vim.o.clipboard = "unnamedplus"
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.splitright = true
+vim.o.splitbelow = true
+vim.o.scrolloff = 8
+vim.o.undofile = true
+vim.o.inccommand = "split"
+vim.o.completeopt = "menuone,noselect,popup"
+vim.o.termguicolors = true
+vim.o.winborder = "single"
