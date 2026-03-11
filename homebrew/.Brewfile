@@ -22,6 +22,7 @@ brew 'wget'
 brew 'coreutils' if OS.mac?
 
 # Git
+brew 'git'
 brew 'gh'
 brew 'lazygit'
 brew 'pre-commit' if OS.mac?

@@ -42,13 +42,6 @@ nvm() {
 }
 
 # Environment
-# Apple Silicon
-if [[ -x /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-# Linux / WSL
-elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
 (( $+commands[sheldon] )) && eval "$(sheldon source)"
 (( $+commands[starship] )) && eval "$(starship init zsh)"
 (( $+commands[rbenv] )) && eval "$(rbenv init - zsh)"
