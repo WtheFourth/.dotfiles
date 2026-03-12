@@ -11,6 +11,15 @@ return {
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = true })
+				end,
+				desc = "Which key?",
+			},
+		},
 		config = function()
 			require("which-key").add({
 				{ "<leader>c", group = "Code" },
