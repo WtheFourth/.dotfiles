@@ -1,24 +1,10 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
+		build = ":TSUpdate",
 		config = function()
-			vim.api.nvim_create_user_command("TSInstallAll", function()
-				require("nvim-treesitter").install({
-					"lua",
-					"vim",
-					"vimdoc",
-					"typescript",
-					"javascript",
-					"tsx",
-					"html",
-					"css",
-					"ruby",
-					"json",
-					"yaml",
-					"markdown",
-					"c_sharp",
-				})
-			end, {})
+			vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/runtime")
 		end,
 	},
 }

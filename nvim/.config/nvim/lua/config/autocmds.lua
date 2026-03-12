@@ -6,13 +6,13 @@ vim.filetype.add({
 })
 
 vim.diagnostic.config({
-	virtual_lines = true,
+	virtual_lines = { current_line = true },
 	signs = true,
 	underline = true,
 	severity_sort = true,
 })
 
-local lsps_to_enable = { "lua_ls", "ts_ls", "eslint", "ruby_lsp", "cssls" }
+local lsps_to_enable = { "lua_ls", "vtsls", "eslint", "ruby_lsp", "cssls" }
 
 vim.api.nvim_create_autocmd("LspDetach", {
 	callback = function(ev)
@@ -62,3 +62,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 	end,
 })
+
+vim.api.nvim_create_user_command("TSInstallAll", function()
+	require("nvim-treesitter").install({
+		"lua",
+		"vim",
+		"vimdoc",
+		"typescript",
+		"javascript",
+		"tsx",
+		"html",
+		"css",
+		"ruby",
+		"json",
+		"yaml",
+		"markdown",
+		"c_sharp",
+	})
+end, {})
