@@ -32,39 +32,26 @@ bob use nightly
 
 ## Packages
 
-| Package      | What it configures                          |
-| ------------ | ------------------------------------------- |
-| `ghostty`    | Ghostty terminal                            |
-| `kitty`      | Kitty terminal (Tokyo Night, cursor trail)  |
-| `git`        | Global gitignore                            |
-| `homebrew`   | Global Brewfile (`~/.Brewfile`)             |
-| `nvim`       | Neovim config                               |
-| `starship`   | Starship prompt                             |
-| `tmux`       | tmux (Tokyo Night theme, vim-style bindings)|
-| `lazygit`    | Lazygit                                     |
-| `zsh`        | Zsh config, sheldon plugins, `dev` function |
+| Package    | What it configures                          |
+| ---------- | ------------------------------------------- |
+| `ghostty`  | Ghostty terminal                            |
+| `kitty`    | Kitty terminal (Catppuccin, cursor trail)   |
+| `git`      | Global gitignore                            |
+| `homebrew` | Global Brewfile (`~/.Brewfile`)             |
+| `nvim`     | Neovim config                               |
+| `starship` | Starship prompt                             |
+| `tmux`     | tmux (vim-style bindings)                   |
+| `lazygit`  | Lazygit                                     |
+| `zsh`      | Zsh config, sheldon plugins, `dev` function |
 
 ## Shell utilities
 
-| Command  | Description                                           |
-| -------- | ----------------------------------------------------- |
-| `dev`    | Spin up a tmux dev session with a git worktree        |
-| `gfm`   | Fetch and merge main (or master) into the current branch |
-| `gwtaf` | Add a worktree by branch name pattern                 |
-| `gwtrmf`| Remove worktrees matching a pattern                   |
-
-### dev
-
-```sh
-dev [--no-context] [--no-install] [--base=<branch>] <session-name> <branch-pattern> [repo-dir]
-```
-
-Creates a worktree, opens a tmux session with Claude Code, neovim + terminal, and lazygit. Automatically detects the package manager and runs install.
-
-Options:
-- `--base=<branch>` — base the worktree off a specific branch instead of main/master
-- `--no-context` — skip the initial `/dev-session` prompt to Claude Code
-- `--no-install` — skip automatic dependency installation
+| Command  | Description                                              |
+| -------- | -------------------------------------------------------- |
+| `dev`    | Spin up a tmux dev session with a git worktree           |
+| `gfm`    | Fetch and merge main (or master) into the current branch |
+| `gwtaf`  | Add a worktree by branch name pattern                    |
+| `gwtrmf` | Remove worktrees matching a pattern                      |
 
 ## Uninstall
 
