@@ -4,9 +4,7 @@ return {
 		keys = {
 			{ "-", "<cmd>Oil<cr>", desc = "Open file explorer" },
 		},
-		config = function()
-			require("oil").setup()
-		end,
+		opts = {},
 	},
 	{
 		"folke/which-key.nvim",

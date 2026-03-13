@@ -3,12 +3,10 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
 		build = ":TSUpdate",
-		config = function() end,
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		branch = "main",
-		init = function() end,
 		config = function()
 			vim.keymap.set({ "x", "o" }, "af", function()
 				require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")

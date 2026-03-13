@@ -4,14 +4,12 @@ return {
 	{ "neovim/nvim-lspconfig" },
 	{
 		"williamboman/mason.nvim",
-		config = function()
-			require("mason").setup({
-				registries = {
-					"github:mason-org/mason-registry",
-					"github:Crashdummyy/mason-registry",
-				},
-			})
-		end,
+		opts = {
+			registries = {
+				"github:mason-org/mason-registry",
+				"github:Crashdummyy/mason-registry",
+			},
+		},
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
@@ -32,8 +30,6 @@ return {
 	},
 	{
 		"seblyng/roslyn.nvim",
-		config = function()
-			require("roslyn").setup({})
-		end,
+		opts = {},
 	},
 }
