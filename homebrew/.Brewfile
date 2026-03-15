@@ -20,6 +20,7 @@ brew 'stow'
 brew 'tmux'
 brew 'wget'
 brew 'coreutils' if OS.mac?
+brew 'eza'
 
 # Git
 brew 'git'
