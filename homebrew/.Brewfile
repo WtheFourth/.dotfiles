@@ -21,6 +21,7 @@ brew 'tmux'
 brew 'wget'
 brew 'coreutils' if OS.mac?
 brew 'eza'
+brew 'glow'
 
 # Git
 brew 'git'
