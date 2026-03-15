@@ -164,5 +164,6 @@ export _ZO_DOCTOR=0
 if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh)"
   alias cd='z'
+  alias cdi='zi'
 fi
 export PATH="$HOME/.hudl/claude-telemetry/bin:$PATH"
