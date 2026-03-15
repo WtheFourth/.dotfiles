@@ -161,5 +161,8 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 export _ZO_DOCTOR=0
-(( $+commands[zoxide] )) && eval "$(zoxide init zsh --cmd cd)"
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh)"
+  alias cd='z'
+fi
 export PATH="$HOME/.hudl/claude-telemetry/bin:$PATH"
