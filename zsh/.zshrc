@@ -37,8 +37,14 @@ fi
 if (( $+commands[nvim] )); then
   alias vim='nvim'
 fi
+if (( $+commands[rg] )); then
+  alias grep='rg'
+fi
 if (( $+commands[fdfind] )); then
   alias fd='fdfind'
+fi
+if (( $+commands[fd] )); then
+  alias find='fd'
 fi
 nvm() {
   if [[ "$1" == "use" ]]; then
