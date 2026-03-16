@@ -26,6 +26,9 @@ if command -v tmux &> /dev/null && [[ -z "$TMUX" ]]; then
 fi
 
 # Aliases
+if (( $+commands[eza] )); then
+  alias eza='eza --icons -a -g --group-directories-first'
+fi
 if (( $+commands[bat] )); then
   alias cat='bat'
 fi
