@@ -63,6 +63,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+	callback = function()
+		local diagnostics = vim.diagnostic.get(nil, { severity = vim.diagnostic.severity.ERROR })
+		if #diagnostics > 0 then
+			require("trouble").open({ mode = "preview_right", focus = false })
+		else
+			require("trouble").close()
+		end
+	end,
+})
+
 vim.api.nvim_create_user_command("TSInstallAll", function()
 	require("nvim-treesitter").install({
 		"lua",
