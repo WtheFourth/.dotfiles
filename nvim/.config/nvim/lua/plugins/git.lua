@@ -8,6 +8,47 @@ return {
 			{ "<leader>gH", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview branch history" },
 			{ "<leader>gq", "<cmd>DiffviewClose<cr>", desc = "Diffview close" },
 		},
+		opts = function()
+			local actions = require("diffview.actions")
+
+			local function has_conflicts()
+				local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+				return vim.iter(lines):any(function(l)
+					return l:match("^<<<<<<<")
+				end)
+			end
+
+			-- Resolve one conflict then save only if no conflicts remain
+			local function choose(side)
+				return function()
+					actions.conflict_choose(side)()
+					if not has_conflicts() then
+						vim.cmd("silent! write")
+					end
+				end
+			end
+
+			-- Resolve all conflicts then always save
+			local function choose_all(side)
+				return function()
+					actions.conflict_choose_all(side)()
+					vim.cmd("silent! write")
+				end
+			end
+
+			return {
+				keymaps = {
+					diff3 = {
+						{ "n", "co", choose("ours"), { desc = "Choose OURS" } },
+						{ "n", "ct", choose("theirs"), { desc = "Choose THEIRS" } },
+						{ "n", "cb", choose("base"), { desc = "Choose BASE" } },
+						{ "n", "ca", choose_all("all"), { desc = "Choose all (save)" } },
+						{ "n", "cO", choose_all("ours"), { desc = "Choose all OURS (save)" } },
+						{ "n", "cT", choose_all("theirs"), { desc = "Choose all THEIRS (save)" } },
+					},
+				},
+			}
+		end,
 	},
 	{
 		"lewis6991/gitsigns.nvim",
