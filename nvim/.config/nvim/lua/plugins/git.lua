@@ -40,7 +40,12 @@ return {
 				-- Hunk actions
 				map("n", "<leader>gs", gs.stage_hunk, { desc = "Stage hunk" })
 				map("v", "<leader>gs", function()
-					gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+					local start_line = vim.fn.line(".")
+					local end_line = vim.fn.line("v")
+					if start_line > end_line then
+						start_line, end_line = end_line, start_line
+					end
+					gs.stage_hunk({ start_line, end_line })
 				end, { desc = "Stage hunk" })
 				map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
 				map("n", "<leader>gr", gs.reset_hunk, { desc = "Reset hunk" })
