@@ -1,12 +1,5 @@
 return {
 	{
-		"stevearc/oil.nvim",
-		keys = {
-			{ "-", "<cmd>Oil<cr>", desc = "Open file explorer" },
-		},
-		opts = {},
-	},
-	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		keys = {

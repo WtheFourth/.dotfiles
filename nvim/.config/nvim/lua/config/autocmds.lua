@@ -12,7 +12,7 @@ vim.diagnostic.config({
 	severity_sort = true,
 })
 
-local lsps_to_enable = { "lua_ls", "vtsls", "eslint", "ruby_lsp", "cssls" }
+local lsps_to_enable = require("config.servers")
 
 vim.api.nvim_create_autocmd("LspDetach", {
 	callback = function(ev)
@@ -59,6 +59,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.tbl_extend("force", opts, { desc = "Go to declaration" })
 		)
 		vim.keymap.set("n", "<leader>cn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
+		vim.keymap.set("n", "<leader>ci", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc = "Go to implementation" }))
+		vim.keymap.set("n", "<leader>ct", vim.lsp.buf.type_definition, vim.tbl_extend("force", opts, { desc = "Go to type definition" }))
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = "References" }))
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc = "Go to implementation" }))
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 	end,
 })

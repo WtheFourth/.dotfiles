@@ -1,4 +1,4 @@
-local lsps_to_enable = { "lua_ls", "vtsls", "eslint", "ruby_lsp", "cssls" }
+local lsps_to_enable = require("config.servers")
 
 return {
 	{ "neovim/nvim-lspconfig" },

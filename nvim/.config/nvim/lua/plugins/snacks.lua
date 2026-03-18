@@ -54,6 +54,14 @@ return {
 				end,
 				desc = "Recent files",
 			},
+			{
+				"<leader>fw",
+				function()
+					require("snacks").picker.grep_word()
+				end,
+				mode = { "n", "x" },
+				desc = "Grep word under cursor",
+			},
 			-- Lazygit
 			{
 				"<leader>gg",
