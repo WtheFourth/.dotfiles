@@ -32,9 +32,22 @@ return {
 			end
 
 			-- C# via netcoredbg
+			local netcoredbg_path = vim.fn.exepath("netcoredbg")
+			if netcoredbg_path == nil or netcoredbg_path == "" then
+				-- Try Mason's default install location as a fallback
+				local mason_netcoredbg = vim.fn.stdpath("data") .. "/mason/bin/netcoredbg"
+				if vim.fn.filereadable(mason_netcoredbg) == 1 or vim.fn.executable(mason_netcoredbg) == 1 then
+					netcoredbg_path = mason_netcoredbg
+				else
+					vim.notify(
+						"netcoredbg executable not found. Please install it (e.g. via Mason) or add it to your PATH.",
+						vim.log.levels.ERROR
+					)
+				end
+			end
 			dap.adapters.coreclr = {
 				type = "executable",
-				command = vim.fn.exepath("netcoredbg"),
+				command = netcoredbg_path,
 				args = { "--interpreter=vscode" },
 			}
 			dap.configurations.cs = {
