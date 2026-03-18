@@ -39,12 +39,16 @@ return {
 			return {
 				keymaps = {
 					diff3 = {
-						{ "n", "co", choose("ours"), { desc = "Choose OURS" } },
+						-- Single conflict: save when it was the last one
+						{ "n", "co", choose("ours"),   { desc = "Choose OURS" } },
 						{ "n", "ct", choose("theirs"), { desc = "Choose THEIRS" } },
-						{ "n", "cb", choose("base"), { desc = "Choose BASE" } },
-						{ "n", "ca", choose_all("all"), { desc = "Choose all (save)" } },
-						{ "n", "cO", choose_all("ours"), { desc = "Choose all OURS (save)" } },
-						{ "n", "cT", choose_all("theirs"), { desc = "Choose all THEIRS (save)" } },
+						{ "n", "cb", choose("base"),   { desc = "Choose BASE" } },
+						{ "n", "ca", choose("all"),    { desc = "Choose all sides (union)" } },
+						-- Whole file: always save immediately
+						{ "n", "cO", choose_all("ours"),   { desc = "Choose OURS for all conflicts (save)" } },
+						{ "n", "cT", choose_all("theirs"), { desc = "Choose THEIRS for all conflicts (save)" } },
+						{ "n", "cB", choose_all("base"),   { desc = "Choose BASE for all conflicts (save)" } },
+						{ "n", "cA", choose_all("all"),    { desc = "Choose all sides for all conflicts (save)" } },
 					},
 				},
 			}
