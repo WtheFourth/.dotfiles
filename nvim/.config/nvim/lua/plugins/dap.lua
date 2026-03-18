@@ -3,6 +3,7 @@ return {
 		"mfussenegger/nvim-dap",
 		dependencies = {
 			"igorlfs/nvim-dap-view",
+			"theHamsta/nvim-dap-virtual-text",
 		},
 		keys = {
 			{ "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle breakpoint" },
@@ -18,6 +19,7 @@ return {
 			local dap = require("dap")
 			local dapview = require("dap-view")
 			dapview.setup()
+			require("nvim-dap-virtual-text").setup()
 
 			dap.listeners.after.event_initialized["dapview_config"] = function()
 				dapview.open()
@@ -51,6 +53,35 @@ return {
 					processId = require("dap.utils").pick_process,
 				},
 			}
+
+			-- TypeScript / JavaScript via vscode-js-debug (js-debug-adapter)
+			dap.adapters["pwa-node"] = {
+				type = "server",
+				host = "localhost",
+				port = "${port}",
+				executable = {
+					command = "js-debug-adapter",
+					args = { "${port}" },
+				},
+			}
+			for _, lang in ipairs({ "typescript", "javascript", "typescriptreact", "javascriptreact" }) do
+				dap.configurations[lang] = {
+					{
+						type = "pwa-node",
+						request = "launch",
+						name = "Launch file",
+						program = "${file}",
+						cwd = "${workspaceFolder}",
+					},
+					{
+						type = "pwa-node",
+						request = "attach",
+						name = "Attach",
+						processId = require("dap.utils").pick_process,
+						cwd = "${workspaceFolder}",
+					},
+				}
+			end
 		end,
 	},
 }

@@ -8,3 +8,8 @@ vim.keymap.set("n", "<leader>ccl", "gcc", { desc = "Comment line", remap = true 
 vim.keymap.set({ "n", "v", "x" }, "<leader>cf", function()
 	require("conform").format({ async = true, lsp_fallback = true })
 end, { desc = "Format" })
+
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down (centered)" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up (centered)" })
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Prev search result (centered)" })

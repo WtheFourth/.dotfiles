@@ -18,6 +18,8 @@ return {
 				{ "<leader>f", group = "Find" },
 				{ "<leader>d", group = "Debug" },
 				{ "<leader>g", group = "Git" },
+				{ "<leader>x", group = "Diagnostics" },
+				{ "<leader>t", group = "Test" },
 			})
 		end,
 	},
@@ -128,6 +130,7 @@ return {
 			modes = {
 				preview_right = {
 					mode = "diagnostics",
+					filter = { severity = vim.diagnostic.severity.ERROR },
 					preview = {
 						type = "split",
 						relative = "win",
@@ -136,7 +139,7 @@ return {
 					},
 				},
 			},
-		}, -- for default options, refer to the configuration section for custom setup.
+		},
 		cmd = "Trouble",
 		keys = {
 			{
@@ -170,5 +173,34 @@ return {
 				desc = "Quickfix List (Trouble)",
 			},
 		},
+	},
+	{
+		"echasnovski/mini.ai",
+		event = "VeryLazy",
+		opts = {
+			n_lines = 500,
+		},
+	},
+	{
+		-- gz prefix avoids conflict with flash's s mapping in n/x/o modes
+		-- gza{motion}{char} = add, gzd{char} = delete, gzr{old}{new} = replace
+		"echasnovski/mini.surround",
+		event = "VeryLazy",
+		opts = {
+			mappings = {
+				add = "gza",
+				delete = "gzd",
+				find = "gzf",
+				find_left = "gzF",
+				highlight = "gzh",
+				replace = "gzr",
+				update_n_lines = "gzn",
+			},
+		},
+	},
+	{
+		"echasnovski/mini.pairs",
+		event = "InsertEnter",
+		opts = {},
 	},
 }
