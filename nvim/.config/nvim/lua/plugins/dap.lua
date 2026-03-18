@@ -68,12 +68,16 @@ return {
 			}
 
 			-- TypeScript / JavaScript via vscode-js-debug (js-debug-adapter)
+			local js_debug_adapter = vim.fn.exepath("js-debug-adapter")
+			if js_debug_adapter == "" then
+				js_debug_adapter = "js-debug-adapter"
+			end
 			dap.adapters["pwa-node"] = {
 				type = "server",
 				host = "localhost",
 				port = "${port}",
 				executable = {
-					command = "js-debug-adapter",
+					command = js_debug_adapter,
 					args = { "${port}" },
 				},
 			}
