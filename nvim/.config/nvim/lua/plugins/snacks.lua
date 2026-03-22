@@ -133,9 +133,9 @@ return {
 				},
 				sections = {
 					{ section = "header" },
-					{ section = "keys", gap = 1, padding = 1 },
 					{ title = "Recent Files", padding = 1 },
 					{ section = "recent_files", cwd = true, limit = 5, padding = 1 },
+					{ section = "keys", gap = 1, padding = 1 },
 					{ section = "startup" },
 				},
 			},
