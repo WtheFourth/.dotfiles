@@ -1,4 +1,4 @@
-local lsps_to_enable = { "lua_ls", "vtsls", "eslint", "ruby_lsp", "cssls" }
+local lsps_to_enable = require("config.servers")
 
 return {
 	{ "neovim/nvim-lspconfig" },
@@ -24,7 +24,7 @@ return {
 		dependencies = { "williamboman/mason.nvim" },
 		config = function()
 			require("mason-tool-installer").setup({
-				ensure_installed = { "prettierd", "prettier", "rubocop", "stylua", "netcoredbg" },
+				ensure_installed = { "prettierd", "prettier", "rubocop", "stylua", "netcoredbg", "js-debug-adapter" },
 			})
 		end,
 	},
