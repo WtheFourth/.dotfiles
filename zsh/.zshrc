@@ -154,6 +154,7 @@ gwtrmf() {
 }
 
 [[ -f "$HOME/.config/zsh/pdev.zsh" ]] && source "$HOME/.config/zsh/pdev.zsh"
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
 
 # Keybindings
 bindkey '^[[A' history-substring-search-up
@@ -166,3 +167,7 @@ if (( $+commands[zoxide] )); then
   alias cdi='zi'
 fi
 export PATH="$HOME/.hudl/claude-telemetry/bin:$PATH"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/walter.kennedy/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

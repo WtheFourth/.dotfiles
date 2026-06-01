@@ -67,6 +67,7 @@ cask 'font-jetbrains-mono-nerd-font'
 
 # Apps
 if OS.mac?
+  cask 'claude'
   cask 'kitty'
   cask 'firefox@developer-edition'
   cask 'microsoft-edge'
@@ -78,7 +79,6 @@ end
 if OS.mac?
   cask 'visual-studio-code'
   vscode 'anthropic.claude-code'
-  vscode 'asvetliakov.vscode-neovim'
   vscode 'astro-build.houston'
   vscode 'catppuccin.catppuccin-vsc'
   vscode 'catppuccin.catppuccin-vsc-icons'

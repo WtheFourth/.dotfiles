@@ -4,3 +4,5 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
 elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
+# Add .NET Core SDK tools
+export PATH="$PATH:/Users/walter.kennedy/.dotnet/tools"
